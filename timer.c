@@ -1,48 +1,75 @@
 
+#include <xc.h>
 #include "timer.h"
 #include "gpio.h"
 
+static uint16_t _current_time;
+static uint16_t _period_ms;
+//uint8_t _id;
 
-void initTimer1(unsigned int period) 
-{
-    T1CON = 0; // ensure Timer 1 is in reset state
-    T1CONbits.TGATE = 0; // gated time accumulation disabled
-    T1CONbits.TCKPS = 0b10; // FCY divide by 64: tick = 1.6us
-    T1CONbits.TCS = 0; // select internal FCY clock source
+uint16_t timer1_setup( uint16_t period_ms ) {
+    //_id = 1;
+    _period_ms = period_ms;
+     
+    T1CON = 0;            // Timer reset
+    T1CONbits.TGATE = 0;  // Gated time accumulation disabled
+    T1CONbits.TCS   = 0;  // internal clk
     TMR1 = 0;
-    PR1 = period-1; // set Timer 1 period register ()
-    IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
-    IPC0bits.T1IP = 4; // set Timer1 interrupt priority level to 4
-    IEC0bits.T1IE = 1; // enable Timer 1 interrupt
+    /*
+     * prescaller  1 tick   1m            max period 2^16 ticks
+     * 256         6.4us    156.25 ticks  419 ms
+     * 64          1.6us    625 ticks     104 ms
+     */
+    if( period_ms < 105 ) {
+        T1CONbits.TCKPS = 0b10; // 1:64 prescale
+        PR1 = period_ms * 625 - 1;  // set Timer 1 period
+    }
+    else if( period_ms < 420 ) {
+        T1CONbits.TCKPS = 0b11; // 1:256 prescale
+        PR1 = period_ms * 156.25 - 1;  // set Timer 1 period
+    }
+    else {
+        PR1 = 0;
+        _period_ms = 0;
+        IEC0bits.T1IE = 0;      // Disable Timer1 interrupt
+        return 1;               // error
+    }
+    IFS0bits.T1IF = 0;      // Reset Timer1 interrupt flag
+    IPC0bits.T1IP = 4;      // Timer1 Interrupt priority level=4
+    IEC0bits.T1IE = 1;      // Enable Timer1 interrupt
     T1CONbits.TON = 0; // leave timer disabled initially
     
+    return 0;   // no errors
 }
 
-void startTimer1(void) {
-    T1CONbits.TON = 1; //
-   
-  
+void timer1_start( void ) {
+    _current_time = 0;
+    T1CONbits.TON   = 1;  // start timer
 }
 
-void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void)
-{
-        static  int count=0;
+void timer1_stop( void ) {
+    _current_time = 0;
+    T1CONbits.TON   = 0;  // stop timer
+}
 
+uint16_t get_current_time( void ) {
+    return _current_time;
+}
 
-        IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
+void reset_current_time( void ) {
+    _current_time = 0;
+}
 
-
-        LED1=~LED1;
-        if (count<9)
-        {
-            count++;
-        }
-        else
-        {
-            //LED1=~LED1;
-            count=0;
-        }
-
+void wait_ms( uint16_t wait_duration_ms ) {
+    _current_time = 0;
     
+    while( _current_time < wait_duration_ms );
 }
 
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
+    IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
+    
+    _current_time += _period_ms;
+    
+    LED2 = ~LED2; // toggle led 2 (RB14)
+}

@@ -7,9 +7,11 @@
 
 #ifndef GPIO_H
 #define	GPIO_H
+
 #include "xc.h"
 
 #define LED1  LATBbits.LATB8
+#define LED2  LATBbits.LATB14
 #define SW1   PORTBbits.RB7
     
 

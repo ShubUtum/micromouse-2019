@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=micromouse.X
+PROJECTNAME=micromouse-2019
 
 # Active Configuration
 DEFAULTCONF=default

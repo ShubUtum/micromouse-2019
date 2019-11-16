@@ -1,11 +1,10 @@
-/*
- * File:   main.c
- * Author: a2-lenz
- *
- * Created on April 5, 2019, 11:20 AM
- */
 
+#include <xc.h> 
+#include "timer.h"
+#include "pwm.h"
+#include "gpio.h"
 
+// configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
 #pragma config BSS = NO_FLASH           // Boot Segment Program Flash Code Protection (No Boot program Flash segment)
@@ -41,18 +40,12 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
-// #pragma config statements should precede project file includes.
-// Use project enums instead of #define for ON and OFF.
-#include "xc.h"
-#include "timer.h"
-#include "gpio.h"
-
 #define IN_SIMULATION_MODE  0
 
-//int dat[256];
-int main(void) 
-{
-          /*** oscillator setup --------------------------------------------------
+int main(void) {
+    uint16_t curr_dc = 10;
+    
+    /*** oscillator setup --------------------------------------------------
     Here we are using PPL for 16MHz to generate 80MHz clock.
     FCY = 0.5 * (16MHz*20/(2*2)) = 40 MIPS
     ---------------------------------------------------------------------***/
@@ -63,14 +56,29 @@ int main(void)
     {
         while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
     }
+    
     initIO();
-    initTimer1(6250); //6250 gives 10ms timer interrupt, based on a 1.6 us base = 40MIPS with 64 prescaler
-    startTimer1();
+    timer1_setup( 100 );        // 100 ms timer
+    pwm2_setup( 50, curr_dc );   // DC 10% of 50ms period
+    
+    timer1_start();
+    pwc2_run();
+    
+    while(1){
+        
+        wait_ms( 1000 ); // wait 1 second
 
-    while(1)
-    {      
+        //timer1_stop();
+        //timer1_setup( 200 );
+        //timer1_start();
+        //reset_current_time();
 
+        curr_dc = ( curr_dc + 10 ) % 100;
+        pwc2_change_dc( curr_dc );   // change DC by +10%
+    }
 
-    };
+    //timer1_stop();
+    //pwc2_stop();
+    //while (1);
     return 0;
 }
