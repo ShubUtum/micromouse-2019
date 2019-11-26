@@ -7,6 +7,7 @@
 
 #include <xc.h>
 #include "pwm.h"
+#include "gpio.h"
 
 
 static uint16_t _duration_ms;
@@ -76,4 +77,47 @@ void pwc2_run( void ) {
 
 void pwc2_stop( void ) {
     P2TCONbits.PTEN     = 0;    // PWM Time Base Timer is off
+}
+
+
+int isPWMStart(int channel){
+    if (channel == 2)
+        return P2TCONbits.PTEN;
+    else
+        return 0;
+}
+
+//motor control
+void motor_perform(enum MOVEMENT direction, int speed){
+    //H bridge control
+    if (!isPWMStart(2))
+        pwc2_run();
+    
+    //start GPIO for ctrl input
+    
+    TRISBbits.TRISB13 = 0; //latches as output
+    TRISBbits.TRISB12 = 0;
+    
+    CTRLH_INPUT1 = 1;
+    CTRLH_INPUT2 = !CTRLH_INPUT1;
+    
+    switch(direction){
+        case LEFT: break;
+        case RIGHT: break;
+        case FORWARD: 
+            CTRLH_INPUT1 = 1;
+            CTRLH_INPUT2 = 0;
+            pwc2_change_dc(speed);
+            break;
+        case BACKWARD:
+            CTRLH_INPUT1 = 0;
+            CTRLH_INPUT2 = 1;
+            pwc2_change_dc(speed);
+            break;
+        default:
+            CTRLH_INPUT1 = 1;
+            CTRLH_INPUT2 = 1;
+            return;
+    }
+    
 }
