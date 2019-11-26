@@ -1,5 +1,6 @@
 TODOs:
 
+- [ ] write a gitignore file
 - [x] Timer Interrupt
 - [x] PWM
 - [ ] UART, USB/BT interface
