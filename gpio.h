@@ -13,6 +13,9 @@
 #define LED1  LATBbits.LATB8
 #define LED2  LATBbits.LATB14
 #define SW1   PORTBbits.RB7
+
+#define CTRLH_INPUT1 LATBbits.LATB13
+#define CTRLH_INPUT2 LATBbits.LATB12
     
 
 void initIO();
