@@ -2,6 +2,7 @@
 #include <xc.h>
 #include "timer.h"
 #include "gpio.h"
+#include "uart.h"
 
 static uint16_t _current_time;
 static uint16_t _period_ms;
@@ -66,10 +67,26 @@ void wait_ms( uint16_t wait_duration_ms ) {
     while( _current_time < wait_duration_ms );
 }
 
+void interrupt_init( void ) {
+    IEC1bits.U2RXIE = 0;  // receive interrupt request not enabled
+    IFS1bits.U2RXIF = 0; // receive interrupt request has occurred
+    IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
+}
+
+void set_receive_priority( void) {
+    IFS1bits.U2RXIF=1; // interrupt request occured
+}
+
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
     
     _current_time += _period_ms;
     
     LED2 = ~LED2; // toggle led 2 (RB14)
+    
+    send_A2Z();
+    
+    char *mystring = "dispic33fJ64MC804";
+    mySendString(mystring);
+    
 }
