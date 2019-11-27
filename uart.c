@@ -19,7 +19,7 @@ uint16_t configUART2( uint16_t baud_rate, uint16_t fcy) //baud_rate in k, fcy in
     float baud_rate_U2BRG;
     baud_rate_U2BRG = (fcy * 1000000 / (16 * (baud_rate * 1000)) ) - 1;
     baud_rate_U2BRG = (int) baud_rate_U2BRG;
- 
+    baud_rate_U2BRG = 16;
     U2MODEbits.UARTEN    = 0;     // disable UART
     U2BRG                = baud_rate_U2BRG;    // set baud rate to 57.6k bit/s
     U2MODEbits.LPBACK    = 0;     //disable loop-back mode
@@ -36,14 +36,14 @@ uint16_t configUART2( uint16_t baud_rate, uint16_t fcy) //baud_rate in k, fcy in
 
 void send_A2Z( void )
 {
-    uint16_t char_A2Z = 65;
+    static uint16_t char_A2Z = 'A';
     U2TXREG = char_A2Z; 
     char_A2Z ++;
-    if(char_A2Z > 90)
+    if(char_A2Z > 'Z')
     {
-        char_A2Z = 65;
+        char_A2Z = 'A';
     }
-    wait_ms( 100 ); // wait 100ms
+   // wait_ms( 100 ); // wait 100ms
 }
 
 void send_char( char c ) // send one byte at a time

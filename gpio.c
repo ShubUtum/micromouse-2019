@@ -14,7 +14,8 @@ void initIO() {
     TRISBbits.TRISB7=1; //Switch input
 
     //outputs
-    TRISBbits.TRISB8=0; //LED output
+    TRISBbits.TRISB8=0; //LED output//pwc2_run();
+    TRISBbits.TRISB14=0; //LED output//pwc2_run();
  
 
 

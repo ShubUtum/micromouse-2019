@@ -60,23 +60,28 @@ int main(void) {
     }
     
     initIO();
+    configUART2(16, 64);
+        
+   // interrupt_init();
+    //set_receive_priority(); 
     timer1_setup( 100 );        // 100 ms timer
-    pwm2_setup( 50, curr_dc );   // DC 10% of 50ms period
-    
+    pwm2_setup( 1, curr_dc );   // DC 10% of 50ms period
+    //pwc2_run();
     timer1_start();
-    pwc2_run();
+ 
+    
     
     while(1){
         
-        wait_ms( 1000 ); // wait 1 second
+        //wait_ms( 1000 ); // wait 1 second
 
         //timer1_stop();
         //timer1_setup( 200 );
         //timer1_start();
         //reset_current_time();
 
-        curr_dc = ( curr_dc + 10 ) % 100;
-        pwc2_change_dc( curr_dc );   // change DC by +10%
+        //curr_dc = ( curr_dc + 10 ) % 100;
+        //pwc2_change_dc( curr_dc );   // change DC by +10%
     }
 
     //timer1_stop();

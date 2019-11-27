@@ -70,7 +70,7 @@ void __attribute__((interrupt, auto_psv)) _QEIInterrupt(void)
 float calc_velocity(uint16_t deltaTime) {
     float f = 1.0f/(deltaTime);
     long currentCount = _longCNT + POSCNT;
-    float v = (currentCount - _prev_count) * f
+    float v = (currentCount - _prev_count) * f;
     _prev_count = currentCount;
     v = (2*PI / (_base_resolution * _gearing_ratio * _edge_gain)) * v;
     if (_wheel_circumference == 0) {

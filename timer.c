@@ -83,10 +83,11 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     _current_time += _period_ms;
     
     LED2 = ~LED2; // toggle led 2 (RB14)
+    LED1 = ~LED1; // toggle led 2 (RB14)
     
     send_A2Z();
     
-    char *mystring = "dispic33fJ64MC804";
-    mySendString(mystring);
+    //char *mystring = "dispic33fJ64MC804";
+    //mySendString(mystring);
     
 }
