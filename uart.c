@@ -14,6 +14,8 @@
 #include <stdlib.h> // for atoi()
 #include "pwm.h"
 
+
+
 uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
 {
     float baud_rate_U2BRG;
@@ -36,15 +38,13 @@ uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
 
 void send_A2Z( void )
 {
-    U2TXREG = 'A';
-//    static uint16_t char_A2Z = 'A';
-//    U2TXREG = char_A2Z; 
-//    char_A2Z ++;
-//    if(char_A2Z > 'Z')
-//    {
-//        char_A2Z = 'A';
-//    }
-   // wait_ms( 100 ); // wait 100ms
+    static uint16_t char_A2Z = 'A';
+    U2TXREG = char_A2Z; 
+    char_A2Z ++;
+    if(char_A2Z > 'Z')
+    {
+        char_A2Z = 'A';
+    }
 }
 
 
@@ -56,13 +56,12 @@ void send_char( char c ) // send one byte at a time
 }
 
 
-void mySendString(char * textString)
+void mySendString()
 {
-    int mystrlen = strlen(textString);
     int i;
-    for(i=0;i<mystrlen;i++)
+    for(i=0;i<MAX_STRING_LENGTH;i++)
     {
-        send_char(textString[i]);
+        send_char(string[i]);
     }
 }
  
