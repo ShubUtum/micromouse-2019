@@ -60,11 +60,11 @@ int main(void) {
     }
     
     initIO();
-    configUART2(16, 64);
+    configUART2(57.6, 40);
         
    // interrupt_init();
     //set_receive_priority(); 
-    timer1_setup( 100 );        // 100 ms timer
+    timer1_setup( 10 );        // 100 ms timer
     pwm2_setup( 1, curr_dc );   // DC 10% of 50ms period
     //pwc2_run();
     timer1_start();

@@ -10,7 +10,7 @@
 #include "xc.h"
 #include "uart.h"
 
-uint16_t configUART2( uint16_t baud_rate, uint16_t fcy);
+uint16_t configUART2( float baud_rate, uint16_t fcy);
 void send_A2Z( void );
 void send_char( char c);
 void mySendString( char * myString);
