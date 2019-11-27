@@ -1,9 +1,10 @@
 
 #include <xc.h> 
 #include "timer.h"
-#include "gpio.h"
-#include "uart.h"
 #include "pwm.h"
+#include "gpio.h"
+#include "qei.h"
+#include "uart.h"
 
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 // FBS
@@ -65,22 +66,18 @@ int main(void) {
     timer1_start();
     pwc2_run();
     
-    configUART2(57.6, 64);
-    interrupt_init();
-    set_receive_priority();
- 
     while(1){
-        timer1_stop();
-        timer1_setup( 200 );
-        timer1_start();
-        reset_current_time();
+        
+        wait_ms( 1000 ); // wait 1 second
+
+        //timer1_stop();
+        //timer1_setup( 200 );
+        //timer1_start();
+        //reset_current_time();
 
         curr_dc = ( curr_dc + 10 ) % 100;
         pwc2_change_dc( curr_dc );   // change DC by +10%
-        
-    } 
-     
-    
+    }
 
     //timer1_stop();
     //pwc2_stop();
