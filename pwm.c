@@ -26,20 +26,22 @@ uint16_t pwm2_setup( uint16_t duration_ms, uint16_t dc_perc )
     * 4           0.1us    10000 ticks   3.28 ms                200 * duration
     * 1           25ns     40000 ticks   0.8 ms                 800 * duration
     */
-    if( duration_ms <= 13 ) {
+    if( duration_ms == 0 || duration_ms > 52 ) {
+        /* not supported, return error */
+        _duration_ms   = 0xFFFF;   // invalid value
+        _dc_perc       = 0xFFFF;   // invalid value
+        error();
+        return 1;
+    }
+    else if( duration_ms <= 13 ) {
         P2TCONbits.PTCKPS   = 0b10;   // 1:16 prescale
         P2TPERbits.PTPER    = duration_ms * 2500 - 1;
-        P2DC1               = dc_perc * duration_ms * 50 - 1;
+        P2DC1               = dc_perc * duration_ms * 50;
     } 
     else if( duration_ms <= 52 ) {
         P2TCONbits.PTCKPS   = 0b11;   // 1:64 prescale
         P2TPERbits.PTPER    = duration_ms * 625 - 1;
-        P2DC1                = dc_perc * duration_ms * 12.5 - 1;
-    }else {
-        /* not supported, return error */
-        _duration_ms   = 0xFFFF;   // invalid value
-        _dc_perc       = 0xFFFF;   // invalid value
-        return 1;
+        P2DC1                = dc_perc * duration_ms * 12.5;
     }
     P2TCONbits.PTMOD    = 0b00;  // free running mode
     P2TCONbits.PTSIDL   = 0;     // PWM time base runs in CPU Idle mode
@@ -56,12 +58,14 @@ uint16_t pwm2_setup( uint16_t duration_ms, uint16_t dc_perc )
     return 0;
 }
 
-uint16_t pwc2_change_dc( uint16_t dc_perc ) {
+uint16_t pwm2_change_dc( uint16_t dc_perc ) {
+    if( dc_perc > 100 ) dc_perc = 100;
+    
     if( _duration_ms <= 13 ) {
-        P2DC1   = dc_perc * _duration_ms * 50 - 1;
+        P2DC1   = dc_perc * _duration_ms * 50;
     } 
     else if( _duration_ms <= 52 ) {
-        P2DC1   = dc_perc * _duration_ms * 12.5 - 1;
+        P2DC1   = dc_perc * _duration_ms * 12.5;
     }else {
         /* not supported, return error */
         _duration_ms   = 0xFFFF;   // invalid value
@@ -71,11 +75,11 @@ uint16_t pwc2_change_dc( uint16_t dc_perc ) {
     return 0;
 }
 
-void pwc2_run( void ) {
+void pwm2_run( void ) {
     P2TCONbits.PTEN     = 1;    // PWM Time Base Timer is on        
 }
 
-void pwc2_stop( void ) {
+void pwm2_stop( void ) {
     P2TCONbits.PTEN     = 0;    // PWM Time Base Timer is off
 }
 
@@ -91,12 +95,10 @@ int isPWMStart(int channel){
 void motor_perform(enum MOVEMENT direction, int speed){
     //H bridge control
     if (!isPWMStart(2))
-        pwc2_run();
+        pwm2_run();
     
     //start GPIO for ctrl input
     
-    TRISBbits.TRISB13 = 0; //latches as output
-    TRISBbits.TRISB12 = 0;
     
     CTRLH_INPUT1 = 1;
     CTRLH_INPUT2 = !CTRLH_INPUT1;
@@ -107,17 +109,16 @@ void motor_perform(enum MOVEMENT direction, int speed){
         case FORWARD: 
             CTRLH_INPUT1 = 1;
             CTRLH_INPUT2 = 0;
-            pwc2_change_dc(speed);
+            pwm2_change_dc(speed);
             break;
         case BACKWARD:
             CTRLH_INPUT1 = 0;
             CTRLH_INPUT2 = 1;
-            pwc2_change_dc(speed);
+            pwm2_change_dc(speed);
             break;
         default:
             CTRLH_INPUT1 = 1;
             CTRLH_INPUT2 = 1;
             return;
     }
-    
 }

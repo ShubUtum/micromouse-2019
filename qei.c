@@ -7,8 +7,10 @@
 
 #include <xc.h>
 #include "qei.h"
+#include "uart.h"
 #include <math.h>
 #include <dsp.h>
+#include <stdio.h>
 
 static long _longCNT = 0;
 
@@ -28,8 +30,8 @@ void init_QEI(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_ga
     _wheel_circumference = wheel_circumference;
 
      // Configure QEI pins as digital inputs
-    ADPCFGbits.PCFG5 = 1; // QEB on pin 7 shared with AN5
-    ADPCFGbits.PCFG4 = 1; // QEA on pin 6 shared with AN4
+    //ADPCFGbits.PCFG5 = 1; // QEB on pin 7 shared with AN5
+    //ADPCFGbits.PCFG4 = 1; // QEA on pin 6 shared with AN4
 
     // Configure QEI module
     QEICONbits.QEIM = 0;        // Disable QEI Module
@@ -40,25 +42,26 @@ void init_QEI(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_ga
     QEICONbits.POSRES = 0;      // index pulse does not reset POSCNT
     DFLTCONbits.CEID = 1;       // Count error interrupts disabled
     DFLTCONbits.QEOUT = 0;      // disable digital filters
-
+    QEICONbits.UPDN_SRC = 0;
     QEICONbits.TQCS = 0;        // internal clock source (Tcy)
     QEICONbits.QEIM = 0b111;    // x4 edge gain and reset POSCNT when == MAXCNT
 
     // set initial counter value and maximum range
     MAXCNT = 0xffff;    // set the highest possible time out
-    POSCNT = 0x7fff;    // set POSCNT into middle of range
+    POSCNT = 5;    // set POSCNT into middle of range
     _prev_count = POSCNT;
 
     // Configure Interrupt controller
     IFS3bits.QEI1IF = 0;        // clear interrupt flag
-    IEC3bits.QEI1IE = 1;        // enable QEI interrupt
+    IEC3bits.QEI1IE = 0;        // enable QEI interrupt
     IPC14bits.QEI1IP = 5;       // set QEI interrupt priority
 }
 
 // interrupt service routine
-void __attribute__((interrupt, auto_psv)) _QEIInterrupt(void)
+void __attribute__((interrupt, auto_psv)) _QEI1Interrupt(void)
 {
     IFS3bits.QEI1IF = 0; // clear interrupt flag
+    
     if(POSCNT < 32768) {
         _longCNT += 0x10000; // over-run condition caused interrupt
     }

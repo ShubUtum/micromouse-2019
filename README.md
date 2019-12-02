@@ -1,6 +1,6 @@
 TODOs:
 
-- [ ] write a gitignore file
+- [x] write a gitignore file
 - [x] Timer Interrupt
 - [x] PWM
 - [ ] UART, USB/BT interface
@@ -8,6 +8,6 @@ TODOs:
 - [ ] Motor driver, H-Bridge interface
 - [x] Motor Encoder 
 - [ ] PID controller
-- [ ] PWM fix
+- [x] PWM fix
 - [ ] ADC
 - [ ] LED for measuring execution time

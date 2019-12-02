@@ -45,7 +45,6 @@
 #define IN_SIMULATION_MODE  0
 
 int main(void) {
-    uint16_t curr_dc = 10;
     
     /*** oscillator setup --------------------------------------------------
     Here we are using PPL for 16MHz to generate 80MHz clock.
@@ -61,31 +60,22 @@ int main(void) {
     
     initIO();
     configUART2(57.6, 40);
-        
+   
+    
+    // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
+    init_QEI(16, 33, 4, 0);
+    
    // interrupt_init();
     //set_receive_priority(); 
-    timer1_setup( 10 );        // 100 ms timer
-    pwm2_setup( 1, curr_dc );   // DC 10% of 50ms period
-    //pwc2_run();
+    timer1_setup( 100 );        // 100 ms timer
+    
+    pwm2_setup( 1, 10 );   // DC 10% of 1ms period
+    
+    //pwm2_run();
     timer1_start();
  
     
-    
-    while(1){
-        
-        //wait_ms( 1000 ); // wait 1 second
+    while(1);
 
-        //timer1_stop();
-        //timer1_setup( 200 );
-        //timer1_start();
-        //reset_current_time();
-
-        //curr_dc = ( curr_dc + 10 ) % 100;
-        //pwc2_change_dc( curr_dc );   // change DC by +10%
-    }
-
-    //timer1_stop();
-    //pwc2_stop();
-    //while (1);
     return 0;
 }

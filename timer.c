@@ -3,10 +3,12 @@
 #include "timer.h"
 #include "gpio.h"
 #include "uart.h"
+#include <stdio.h>
+#include "pwm.h"
+#include <math.h>
 
 static uint16_t _current_time;
 static uint16_t _period_ms;
-//uint8_t _id;
 
 uint16_t timer1_setup( uint16_t period_ms ) {
     //_id = 1;
@@ -78,16 +80,52 @@ void set_receive_priority( void) {
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
+    static int dc = 10;
+    static int counter = 0;
+    //enum MOVEMENT dir;
+    
     IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
     
     _current_time += _period_ms;
     
-    LED2 = ~LED2; // toggle led 2 (RB14)
-    LED1 = ~LED1; // toggle led 2 (RB14)
+    GREEN_LED = ~GREEN_LED; // toggle GREEN led (RB15)
+    //RED_LED = ~RED_LED; // toggle RED led  (RB8)
     
     //send_A2Z();
     
-    char mystring[40] = "dispic33fJ64MC804";
-    mySendString(mystring);
+    //char mystring[40] = "dispic33fJ64MC804";
+    //mySendString(mystring);
     
+    
+    //sprintf(string, "%d\n\r", POSCNT );
+    //mySendString();
+    
+    motor_perform( FORWARD, 100 );
+    
+    if( counter == 10 )
+    {
+        counter = 0;
+
+        dc += 10;
+        dc = dc % 100;    
+    }
+    else
+    {
+        counter++;
+    }
+}
+
+void pwm2_sin_modulation()
+{
+    static float t = 0.0;
+    int dc;
+
+    t += 0.01;      // 10ms
+    
+    //if(t > 2.0) t = 0;
+    //dc = (uint16_t)  (t*0.1 * 50);
+        
+    dc=(int) ((sin(2*3.14*2*t)+1.0)*50);    // sin: -1:1 , +1: 0:2, *50: 0:100 = dc range
+    
+    pwm2_change_dc( dc +1);   
 }

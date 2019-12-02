@@ -15,6 +15,7 @@
 #include "pwm.h"
 
 
+char string[MAX_STRING_LENGTH]= "hello world";
 
 uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
 {
@@ -51,18 +52,24 @@ void send_A2Z( void )
 
 void send_char( char c ) // send one byte at a time
 {
+    
+    
+    while(U2STAbits.UTXBF == 1); //wait until buffer is not full
     U2TXREG = c;
-    while(U2STAbits.TRMT == 0);
+    
 }
 
 
 void mySendString()
 {
     int i;
-    for(i=0;i<MAX_STRING_LENGTH;i++)
+    
+    
+    for(i=0; i < 3; i++)
     {
         send_char(string[i]);
     }
+    
 }
  
 
@@ -109,7 +116,7 @@ void adjust_LED4( void )
     int int_dc = atoi(char_dc);
     if(int_dc > 0 && int_dc <= 100)
     {
-        pwc2_change_dc( int_dc );
+        pwm2_change_dc( int_dc );
     }
     else
     {
@@ -122,7 +129,7 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
     IFS1bits.U2RXIF = 0;     // clear Rx interrupt flag
     IPC7bits.U2RXIP = 0b001; // interrupt priority 1
     
-    LED2 = ~LED2; // toggle LED2 when Rx Interrupt is called
+    GREEN_LED = ~GREEN_LED; // toggle GREEN_LED when Rx Interrupt is called
     
     if(U2STAbits.OERR==1) // if Receive buffer has overflowed
     {

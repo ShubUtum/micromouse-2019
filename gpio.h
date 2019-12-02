@@ -10,14 +10,16 @@
 
 #include "xc.h"
 
-#define LED1  LATBbits.LATB8
-#define LED2  LATBbits.LATB14
-#define SW1   PORTBbits.RB7
+#define RED_LED     LATBbits.LATB8
+#define GREEN_LED   LATBbits.LATB15
+#define SW1         PORTAbits.RA4
 
-#define CTRLH_INPUT1 LATBbits.LATB13
-#define CTRLH_INPUT2 LATBbits.LATB12
+#define CTRLH_INPUT1 LATBbits.LATB4
+#define CTRLH_INPUT2 LATBbits.LATB5
     
 
 void initIO();
+void error();
+
 #endif	/* GPIO_H */
 
