@@ -60,14 +60,13 @@ void send_char( char c ) // send one byte at a time
 }
 
 
-void mySendString()
+void mySendString(char* stringinp)
 {
-    int i;
     
     
-    for(i=0; i < 3; i++)
-    {
-        send_char(string[i]);
+    while(*stringinp != '\0'){
+        send_char(*stringinp);
+        stringinp++;
     }
     
 }

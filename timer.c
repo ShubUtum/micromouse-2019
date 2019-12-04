@@ -82,6 +82,7 @@ void set_receive_priority( void) {
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     static int dc = 10;
     static int counter = 0;
+    float velo = 5.50;
     //enum MOVEMENT dir;
     
     IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
@@ -91,28 +92,32 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     GREEN_LED = ~GREEN_LED; // toggle GREEN led (RB15)
     //RED_LED = ~RED_LED; // toggle RED led  (RB8)
     
-    //send_A2Z();
+    
     
     //char mystring[40] = "dispic33fJ64MC804";
     //mySendString(mystring);
     
-    
-    //sprintf(string, "%d\n\r", POSCNT );
-    //mySendString();
-    
-    motor_perform( BACKWARD,100 );
+    //mySendString(" ");
+    velo = calc_velocity(100);
+        sprintf(string, "%d\n\r", velo );
+        mySendString(string);
     
     if( counter == 10 )
     {
         counter = 0;
-
+        
         dc += 10;
-        dc = dc % 100;    
+        dc = dc % 100; 
+        
+    
+        
     }
     else
     {
         counter++;
     }
+    motor_perform( FORWARD,dc );
+    //send_A2Z();
 }
 
 void pwm2_sin_modulation()

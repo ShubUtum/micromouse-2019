@@ -48,7 +48,7 @@ void init_QEI(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_ga
 
     // set initial counter value and maximum range
     MAXCNT = 0xffff;    // set the highest possible time out
-    POSCNT = 5;    // set POSCNT into middle of range
+    POSCNT = 0x7fff;    // set POSCNT into middle of range
     _prev_count = POSCNT;
 
     // Configure Interrupt controller
