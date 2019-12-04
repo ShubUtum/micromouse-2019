@@ -100,7 +100,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     //sprintf(string, "%d\n\r", POSCNT );
     //mySendString();
     
-    motor_perform( FORWARD, 100 );
+    motor_perform( BACKWARD,100 );
     
     if( counter == 10 )
     {

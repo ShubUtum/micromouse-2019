@@ -100,8 +100,8 @@ void motor_perform(enum MOVEMENT direction, int speed){
     //start GPIO for ctrl input
     
     
-    CTRLH_INPUT1 = 1;
-    CTRLH_INPUT2 = !CTRLH_INPUT1;
+    //CTRLH_INPUT1 = 1;
+    //CTRLH_INPUT2 = !CTRLH_INPUT1;
     
     switch(direction){
         case LEFT: break;
