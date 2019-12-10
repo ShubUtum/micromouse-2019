@@ -41,11 +41,11 @@ void __attribute__((interrupt, auto_psv)) _DMA4Interrupt(void)
     for (i = 0; i < 16; i++)
         adcData[i] = DMA4STA << i;
     
-    
     //send data by UART
     char txData[32];
     for (i = 0; i< 16; i++)
-        txData[i] = (adcData[i] + 48) + '0'; //plus 48 to convert dec to 0 or 1 in ascii table; plus '0' to convert to char
+        txData[i] = (adcData[i] == 0? '0': '1'); //plus 48 to convert dec to 0 or 1 in ascii table; plus '0' to convert to char
+    
     mySendString(txData);
 	IFS2bits.DMA4IF 		= 0;	// Clear DMA interrupt
 
