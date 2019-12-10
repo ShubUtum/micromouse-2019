@@ -16,7 +16,7 @@ void startADC1(void)
 //    int i;
 
         AD1CON1bits.ADON=1; //set on-bit
-        AD1CON1bits.ASAM=1; // auto sampling is on
+        AD1CON1bits.ASAM=1;
 }
 
 
@@ -68,14 +68,14 @@ void setupADC1()
     AD1CON3bits.SAMC=0x05; //auto sample time bits, number of Tad
                            //only valid when SSRC=0b111
     AD1CON3bits.ADCS=0x06 ;//8-bits to derive ADC clock
-                           //Tad= TCY · (ADCS<7:0> + 1)   7*25n = 175 ns
+                           //Tad= TCY · (ADCS<7:0> + 1)
 
     //ADCON4
     AD1CON4bits.DMABL=0b000;//<2:0>: Selects Number of DMA Buffer Locations per Analog Input bits
 
 
     //AD1CSSL (input scan select register)
-    AD1CSSL=0b0000000000000111; //select the analog channels 0,1,2
+    AD1CSSL=0b0000000000000111; //select the analog channels 0,1,4 and 5
 
 
     AD1CHS123bits.CH123NA = 0b00; //negative input for S/H 123 is Vref -

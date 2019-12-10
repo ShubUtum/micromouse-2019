@@ -1,7 +1,7 @@
 #include "dma.h"
-#include "initIO.h"
+#include "uart.h"
+// deleted #include "initIO.h"
 
-// assign this data to be in DMA ram
 unsigned int adcData[32]__attribute__((space(dma)));
 
 
@@ -18,11 +18,11 @@ void initDmaChannel4(void)
 	DMA4CONbits.MODE	= 0;	// DMA channel opering mode select 0=Continuous, Ping-Pong modes disabled, 2=continuous, ping-pong
 
 	DMA4REQbits.FORCE	= 0;	// Force DMA Transfer (1=single DMA transfer,0=automatic initiated by DMA request)
-	DMA4REQbits.IRQSEL	= 13;	// DMA Peripheral IRQ number select (ADC1)					>>>>>DMA starts when ADC1 trigger it
+	DMA4REQbits.IRQSEL	= 13;	// DMA Peripheral IRQ number select (ADC1)
 
-	DMA4STA = (__builtin_dmaoffset(&(adcData[0]))); // start address of DMA RAM				>>>>>to Addr
-	DMA4PAD = (volatile unsigned int) &ADC1BUF0;	// address of peripheral sfr (0x0300) 	>>>>>from Addr
-	DMA4CNT	= 2;	// we have 3 a2d  s/h channels for  measurement							>>>>>DMA triggers inerrupt after copying 3 words for 3 ADC channels
+	DMA4STA 	        = (__builtin_dmaoffset(&(adcData[0]))); // start address of DMA RAM
+	DMA4PAD 		= (volatile unsigned int) &ADC1BUF0;			// address of peripheral sfr (0x0300)
+	DMA4CNT			 = 2;	// we have 3 a2d  s/h channels for  measurement
 
 	IFS2bits.DMA4IF 	= 0;	// Clear DMA interrupt
 	IEC2bits.DMA4IE 	= 1;	// enable interrupt
@@ -34,6 +34,19 @@ void initDmaChannel4(void)
 
 void __attribute__((interrupt, auto_psv)) _DMA4Interrupt(void)
 {
+    
+    //assumption READ on register named DMA4STA 
+    //array of data is called adcData[32]]
+    int i = 0;
+    for (i = 0; i < 16; i++)
+        adcData[i] = DMA4STA << i;
+    
+    
+    //send data by UART
+    char txData[32];
+    for (i = 0; i< 16; i++)
+        txData[i] = (adcData[i] + 48) + '0'; //plus 48 to convert dec to 0 or 1 in ascii table; plus '0' to convert to char
+    mySendString(txData);
 	IFS2bits.DMA4IF 		= 0;	// Clear DMA interrupt
 
 };
