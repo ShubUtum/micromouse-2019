@@ -75,7 +75,7 @@ void setupADC1()
 
 
     //AD1CSSL (input scan select register)
-    AD1CSSL=0b0000000000000111; //select the analog channels 0,1,4 and 5
+    AD1CSSL=0b0000000000000111; //select the analog channels 0,1,2
 
 
     AD1CHS123bits.CH123NA = 0b00; //negative input for S/H 123 is Vref -

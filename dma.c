@@ -35,18 +35,33 @@ void initDmaChannel4(void)
 void __attribute__((interrupt, auto_psv)) _DMA4Interrupt(void)
 {
     
+    static int count = 0;
     //assumption READ on register named DMA4STA 
     //array of data is called adcData[32]]
     int i = 0;
-    for (i = 0; i < 16; i++)
-        adcData[i] = DMA4STA << i;
-    
-    //send data by UART
     char txData[32];
-    for (i = 0; i< 16; i++)
-        txData[i] = (adcData[i] == 0? '0': '1'); //plus 48 to convert dec to 0 or 1 in ascii table; plus '0' to convert to char
     
-    mySendString(txData);
+    if (count == 100){
+        count = 0;
+    
+        for (i = 0; i < 32; i++){
+            if (adcData[i] != 0){
+                sprintf(txData, "%d\n\r", adcData[i] );
+                //mySendString(txData);
+            }
+        }
+    
+    }
+    count++;
+    
+    
+//    char txData[32];
+//    for (i = 0; i< 16; i++)
+//        txData[i] = (adcData[i] == 0? '0': '1'); //plus 48 to convert dec to 0 or 1 in ascii table; plus '0' to convert to char
+//    
+//    mySendString(txData);
+    
+    
 	IFS2bits.DMA4IF 		= 0;	// Clear DMA interrupt
 
 };

@@ -5,6 +5,7 @@
 #include "gpio.h"
 #include "qei.h"
 #include "uart.h"
+#include "adc.h"
 
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 // FBS
@@ -65,14 +66,18 @@ int main(void) {
     // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
     init_QEI(16, 33, 4, 0);
     
-   // interrupt_init();
+    interrupt_init();
     //set_receive_priority(); 
     timer1_setup( 100 );        // 100 ms timer
     
     pwm2_setup( 1, 10 );   // DC 10% of 1ms period
     
+    
+    setupADC1();
+    initDmaChannel4();
     //pwm2_run();
     timer1_start();
+    startADC1();
  
     
     while(1);
