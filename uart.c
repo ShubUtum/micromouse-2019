@@ -31,9 +31,13 @@ uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
     U2MODEbits.PDSEL     = 0b00;  // 8 bit data, no parity
     U2MODEbits.STSEL     = 0;     // one stop bit
     U2STAbits.URXISEL    = 0b00;  // interrupt when 1 character arrived
+    IFS1bits.U2RXIF      = 0; // clear interrupt request flag
+    IPC7bits.U2RXIP      = 0b100; // interrupt priority 4
+    IEC1bits.U2RXIE      = 1;  // receive interrupt request enabled
     U2MODEbits.UARTEN    = 1;     // enable UART
     U2STAbits.UTXEN      = 1;     // enable transmit
     
+    IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
     return 0;
 }
 
@@ -126,14 +130,16 @@ void adjust_LED4( void )
 void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
 {
     IFS1bits.U2RXIF = 0;     // clear Rx interrupt flag
-    IPC7bits.U2RXIP = 0b001; // interrupt priority 1
-    
+    char myReceive;
     GREEN_LED = ~GREEN_LED; // toggle GREEN_LED when Rx Interrupt is called
     
     if(U2STAbits.OERR==1) // if Receive buffer has overflowed
     {
         U2STAbits.OERR = 0;
     }
+    myReceive = U2RXREG;
+    send_char(myReceive);
+    U2RXREG = "";
 }
 
 void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt(void)
