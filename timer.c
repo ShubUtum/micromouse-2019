@@ -5,7 +5,12 @@
 #include "uart.h"
 #include <stdio.h>
 #include "pwm.h"
-#include <math.h>
+#include "motor.h"
+
+
+static void timer_10ms_tick_actions( void );
+static void timer_100ms_tick_actions( void );
+
 
 static uint16_t _current_time;
 static uint16_t _period_ms;
@@ -69,68 +74,47 @@ void wait_ms( uint16_t wait_duration_ms ) {
     while( _current_time < wait_duration_ms );
 }
 
-void interrupt_init( void ) {
-    IEC1bits.U2RXIE = 0;  // receive interrupt request not enabled
-    IFS1bits.U2RXIF = 0; // receive interrupt request has occurred
-    IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
-}
-
-void set_receive_priority( void) {
-    IFS1bits.U2RXIF=1; // interrupt request occured
-}
-
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
-    static int dc = 10;
     static int counter = 0;
-    float velo = 5.50;
-    //enum MOVEMENT dir;
     
     IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
-    
     _current_time += _period_ms;
+    GREEN_LED = ~GREEN_LED; // toggle GREEN led
+    //RED_LED = ~RED_LED; // toggle RED led
     
-    GREEN_LED = ~GREEN_LED; // toggle GREEN led (RB15)
-    //RED_LED = ~RED_LED; // toggle RED led  (RB8)
+    counter++;
+    /*****************************************************************************
+     * DONOT ADD ANY CODE IN THIS FUNCTION !!!
+     * CREATE A NEW FUNCTION AND CALL IT FROM ONE OF THE timer_xxms_tick_actions
+     * ***************************************************************************/
+    timer_10ms_tick_actions();
     
-    
-    
-    //char mystring[40] = "dispic33fJ64MC804";
-    //mySendString(mystring);
-    
-    //mySendString(" ");
-    velo = calc_velocity(100);
-        sprintf(string, "%d\n\r", velo );
-        mySendString(string);
-    
-    if( counter == 10 )
-    {
-        counter = 0;
-        
-        dc += 10;
-        dc = dc % 100; 
-        
-    
-        
+    if( counter %2 == 0  ) {
+        // 20 ms tick
+        // add timer_20ms_tick_actions() if there is any 20ms periodic actions required
     }
-    else
-    {
-        counter++;
+    else if( counter %5 == 0  ) {
+        // 50 ms tick
+        // add timer_50ms_tick_actions() if there is any 50ms periodic actions required
     }
-    motor_perform( FORWARD,dc );
-    //send_A2Z();
+    else if( counter %10 == 0 ) {
+        // 100 ms tick
+        timer_100ms_tick_actions();
+    }
+    
+    // reset counter 
+    if( counter == 1000 ) counter = 0;
 }
 
-void pwm2_sin_modulation()
-{
-    static float t = 0.0;
-    int dc;
+static void timer_10ms_tick_actions( void ) {
+    // pwm2_sin_modulation();
+    
+    
+    motor_calc_max_speed(); // Motor max speed calibration
+    //test_motor_PI_control( 50 );)
+}
 
-    t += 0.01;      // 10ms
-    
-    //if(t > 2.0) t = 0;
-    //dc = (uint16_t)  (t*0.1 * 50);
-        
-    dc=(int) ((sin(2*3.14*2*t)+1.0)*50);    // sin: -1:1 , +1: 0:2, *50: 0:100 = dc range
-    
-    pwm2_change_dc( dc +1);   
+static void timer_100ms_tick_actions( void ) {
+    //test_motor();
+    //send_A2Z();
 }

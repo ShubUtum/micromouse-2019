@@ -6,6 +6,7 @@
  */
 
 #include <xc.h>
+#include <math.h>
 #include "pwm.h"
 #include "gpio.h"
 
@@ -170,31 +171,16 @@ int isPWMStart(int channel){
         return 0;
 }
 
-//motor control
-void motor_perform(enum MOVEMENT direction, int speed){
-    //H bridge control
-    if (!isPWMStart(2))
-        pwm2_run();
+void pwm2_sin_modulation( void ) {
+    static float t = 0.0;
+    int dc;
+
+    t += 0.01;      // 10ms
     
-    //start GPIO for ctrl input
+    //if(t > 2.0) t = 0;
+    //dc = (uint16_t)  (t*0.1 * 50);
+        
+    dc=(int) ((sin(2*3.14*2*t)+1.0)*50);    // sin: -1:1 , +1: 0:2, *50: 0:100 = dc range
     
-   
-    switch(direction){
-        case LEFT: break;
-        case RIGHT: break;
-        case FORWARD: 
-            CTRLH_INPUT1 = 1;
-            CTRLH_INPUT2 = 0;
-            pwm2_change_dc(speed);
-            break;
-        case BACKWARD:
-            CTRLH_INPUT1 = 0;
-            CTRLH_INPUT2 = 1;
-            pwm2_change_dc(speed);
-            break;
-        default:
-            CTRLH_INPUT1 = 1;
-            CTRLH_INPUT2 = 1;
-            return;
-    }
+    pwm2_change_dc( dc +1);   
 }

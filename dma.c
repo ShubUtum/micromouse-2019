@@ -1,3 +1,5 @@
+
+#include <stdio.h>
 #include "dma.h"
 #include "uart.h"
 // deleted #include "initIO.h"

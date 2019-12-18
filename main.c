@@ -6,6 +6,7 @@
 #include "qei.h"
 #include "uart.h"
 #include "adc.h"
+#include "dma.h"
 
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 // FBS
@@ -62,24 +63,16 @@ int main(void) {
     initIO();
     configUART2(57.6, 40);
    
-    
     // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
     init_QEI(16, 33, 4, 0);
-    
-    interrupt_init();
-    //set_receive_priority(); 
-    timer1_setup( 100 );        // 100 ms timer
-    
+    timer1_setup( 10 );        // 10 ms timer 
     pwm2_setup( 1, 10 );   // DC 10% of 1ms period
-    
-    
     setupADC1();
     initDmaChannel4();
     //pwm2_run();
-    timer1_start();
     startADC1();
  
-    
+    timer1_start();
     while(1);
 
     return 0;

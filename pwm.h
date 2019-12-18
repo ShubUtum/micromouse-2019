@@ -19,9 +19,8 @@ uint16_t pwm2_change_dc( uint16_t dc_perc );
 void pwm2_run( void );
 void pwm2_stop( void );
 
-void motor_perform(enum MOVEMENT direction, int speed); 
-int isPWMstart(int channel);
-
+void pwm2_sin_modulation( void );
+int isPWMStart(int channel);
 
 #endif	/* PWM_H */
 

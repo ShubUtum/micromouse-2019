@@ -84,3 +84,12 @@ float calc_velocity(uint16_t deltaTime) {
     }
 }
 
+// return POSCNT change since last call(POSCNT/time_unit). can be a negative or positive value based on the Motor direction
+int16_t calc_velocity_in_poscnt( void ) {
+    uint32_t currentCount = _longCNT + POSCNT;
+    int16_t v = currentCount - _prev_count;
+    _prev_count = currentCount;
+    
+    return v;
+}
+

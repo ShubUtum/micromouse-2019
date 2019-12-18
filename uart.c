@@ -14,6 +14,8 @@
 #include <stdlib.h> // for atoi()
 #include "pwm.h"
 
+static void uart2_interrupt_init( void );
+static void set_receive_priority( void );
 
 char string[MAX_STRING_LENGTH]= "hello world";
 
@@ -38,7 +40,20 @@ uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
     U2STAbits.UTXEN      = 1;     // enable transmit
     
     IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
+    
+    uart2_interrupt_init();
+    //set_receive_priority(); 
     return 0;
+}
+
+static void uart2_interrupt_init( void ) {
+    IEC1bits.U2RXIE = 0;  // receive interrupt request not enabled
+    IFS1bits.U2RXIF = 0; // receive interrupt request has occurred
+    IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
+}
+
+static void set_receive_priority( void) {
+    IFS1bits.U2RXIF=1; // interrupt request occured
 }
 
 void send_A2Z( void )
@@ -52,30 +67,20 @@ void send_A2Z( void )
     }
 }
 
-
-
 void send_char( char c ) // send one byte at a time
-{
-    
-    
+{    
     while(U2STAbits.UTXBF == 1); //wait until buffer is not full
-    U2TXREG = c;
-    
+    U2TXREG = c;   
 }
 
-
-void mySendString(char* stringinp)
-{
-    
-    
+void mySendString( char* stringinp )
+{    
     while(*stringinp != '\0'){
         send_char(*stringinp);
         stringinp++;
-    }
-    
+    }   
 }
  
-
 void adjust_LED4( void )
 { 
     char char_dc[5];
@@ -129,8 +134,9 @@ void adjust_LED4( void )
 
 void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
 {
-    IFS1bits.U2RXIF = 0;     // clear Rx interrupt flag
     char myReceive;
+    
+    IFS1bits.U2RXIF = 0;     // clear Rx interrupt flag
     GREEN_LED = ~GREEN_LED; // toggle GREEN_LED when Rx Interrupt is called
     
     if(U2STAbits.OERR==1) // if Receive buffer has overflowed

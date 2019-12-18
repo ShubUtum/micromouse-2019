@@ -14,10 +14,11 @@
 #define MAX_STRING_LENGTH 100
 extern char string[MAX_STRING_LENGTH];
 
-uint16_t configUART2( float baud_rate, uint16_t fcy);
+uint16_t configUART2( float baud_rate, uint16_t fcy );
+
 void send_A2Z( void );
-void send_char( char c);
-void mySendString( /*char * myString*/);
+void send_char( char c );
+void mySendString( char* stringinp );
 void adjust_LED4( void );
 
 
