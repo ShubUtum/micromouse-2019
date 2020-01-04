@@ -42,12 +42,12 @@ uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
     IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
     
     uart2_interrupt_init();
-    //set_receive_priority(); 
+    set_receive_priority(); 
     return 0;
 }
 
 static void uart2_interrupt_init( void ) {
-    IEC1bits.U2RXIE = 0;  // receive interrupt request not enabled
+    IEC1bits.U2RXIE = 1;  // receive interrupt request not enabled
     IFS1bits.U2RXIF = 0; // receive interrupt request has occurred
     IEC1bits.U2TXIE = 0; // transmit interrupt interrupt request enabled
 }

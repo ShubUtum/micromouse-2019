@@ -79,7 +79,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     
     IFS0bits.T1IF = 0; // reset Timer 1 interrupt flag
     _current_time += _period_ms;
-    GREEN_LED = ~GREEN_LED; // toggle GREEN led
+    
     //RED_LED = ~RED_LED; // toggle RED led
     
     counter++;
@@ -93,11 +93,11 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
         // 20 ms tick
         // add timer_20ms_tick_actions() if there is any 20ms periodic actions required
     }
-    else if( counter %5 == 0  ) {
+    if( counter %5 == 0  ) {
         // 50 ms tick
         // add timer_50ms_tick_actions() if there is any 50ms periodic actions required
     }
-    else if( counter %10 == 0 ) {
+    if( counter %10 == 0 ) {
         // 100 ms tick
         timer_100ms_tick_actions();
     }
@@ -110,11 +110,15 @@ static void timer_10ms_tick_actions( void ) {
     // pwm2_sin_modulation();
     
     
-    motor_calc_max_speed(); // Motor max speed calibration
-    //test_motor_PI_control( 50 );)
+    //send_A2Z();
+    //motor_calc_max_speed(); // Motor max speed calibration
+    test_motor_PI_control( 30 );
 }
 
 static void timer_100ms_tick_actions( void ) {
+    //GREEN_LED = ~GREEN_LED; // toggle GREEN led
+    RED_LED = ~RED_LED; // toggle GREEN led
     //test_motor();
+    
     //send_A2Z();
 }

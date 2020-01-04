@@ -47,6 +47,7 @@ void initIO() {
     //outputs
     TRISBbits.TRISB8  =0; //PWM2H1 & RED LED output
     TRISBbits.TRISB15 =0; //GREEN LED output
+    TRISBbits.TRISB6  =0; //RED LED
     TRISBbits.TRISB4  =0; //H bridge dir control 1
     TRISBbits.TRISB5  =0; //H bridge dir control 2
     //TRISBbits.TRISB12 =0; //UART2 TX

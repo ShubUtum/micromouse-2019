@@ -8,9 +8,9 @@
 #include <stdio.h>
 
 // TODO: arbitrary value for now, to be measured and set correctly
-#define MOTOR_MAX_SPEED     100     // POSCNT/10ms 
+#define MOTOR_MAX_SPEED     52     // POSCNT/10ms 
 #define MAX_PMW_DC          100     // can be changed if Motor derived with higher voltage than specified
-#define CNTR_P              (50 / MOTOR_MAX_SPEED)
+#define CNTR_P              (52 / MOTOR_MAX_SPEED)
 
 /* Motor speed PI controller
  * current_speed : current motor speed in num of POSCNT per 10ms
@@ -104,12 +104,15 @@ void test_motor_PI_control( uint16_t desired_speed ) {
     int16_t current_speed;
     
     current_speed = calc_velocity_in_poscnt();
-    sprintf( mystring, "dc = %d, v = %d\n\r", curr_dc, current_speed );
-    mySendString( mystring );
-    
-    // calc DC 
-    curr_dc = motor_PI_control( curr_dc, current_speed, desired_speed);
-    
+        
+    if( current_speed - desired_speed != 0 )
+    {
+        sprintf( mystring, "dc = %d, v = %d\n\r", curr_dc, current_speed );
+        mySendString( mystring );
+
+        // calc DC 
+        curr_dc = motor_PI_control( curr_dc, current_speed, desired_speed);
+    }
     motor_perform( FORWARD, curr_dc );
     //motor_perform( BACKWARD, curr_dc );
 }

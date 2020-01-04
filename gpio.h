@@ -10,7 +10,7 @@
 
 #include "xc.h"
 
-#define RED_LED     LATBbits.LATB8
+#define RED_LED     LATBbits.LATB6
 #define GREEN_LED   LATBbits.LATB15
 #define SW1         PORTAbits.RA4
 
