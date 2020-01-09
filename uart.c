@@ -17,7 +17,7 @@
 static void uart2_interrupt_init( void );
 static void set_receive_priority( void );
 
-char string[MAX_STRING_LENGTH]= "hello world";
+char log_str[MAX_LOG_STR_LEN];
 
 uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
 {
@@ -145,7 +145,7 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
     }
     myReceive = U2RXREG;
     send_char(myReceive);
-    U2RXREG = "";
+    U2RXREG = '\0';
 }
 
 void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt(void)

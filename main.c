@@ -63,10 +63,7 @@ int main(void) {
     initIO();
     configUART2(57.6, 40);
    
-    // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
-    init_QEI(16, 33, 4, 0);
     timer1_setup( 10 );        // 10 ms timer 
-    pwm2_setup( 1, 100 );   // DC 100% of 1ms period
     setupADC1();
     initDmaChannel4();
     //pwm2_run();

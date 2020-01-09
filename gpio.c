@@ -59,8 +59,8 @@ void initIO() {
      // input pin mapping example below:, here you choose the register with the device and assign an remappable pin
     RPINR14bits.QEA1R = 2; // QEI1 A to pin RB2
     RPINR14bits.QEB1R = 3; // QEI1 B to pin RB3
-   // RPINR16bits.QEA2R = 10; //QEI2 A to pin RB10
-    //RPINR16bits.QEB2R = 11; //QEI2 B to pin RB11
+    RPINR16bits.QEA2R = 10; //QEI2 A to pin RB10
+    RPINR16bits.QEB2R = 11; //QEI2 B to pin RB11
     
     RPINR19bits.U2RXR = 13; // input from uart to pin RB13
     //RPINR18bits.U1RXR = 1 ; //U1RX register is pin RB1 / RP1

@@ -16,7 +16,7 @@ static uint16_t _dc1_perc;
 static uint16_t _duration2_ms;
 static uint16_t _dc2_perc;
 
-uint16_t pwm1_setup( uint16_t duration_ms, uint16_t dc_perc )
+uint16_t init_pwm1( uint16_t duration_ms, uint16_t dc_perc )
 {
     _duration1_ms   = duration_ms;
     _dc1_perc       = dc_perc;
@@ -91,7 +91,7 @@ void pwm1_stop( void ) {
 }
 
 
-uint16_t pwm2_setup( uint16_t duration_ms, uint16_t dc_perc )
+uint16_t init_pwm2( uint16_t duration_ms, uint16_t dc_perc )
 {
     _duration2_ms   = duration_ms;
     _dc2_perc       = dc_perc;

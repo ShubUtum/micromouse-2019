@@ -9,14 +9,16 @@
 #define	PWM_H
 
 
-#include <xc.h>
-#include "pwm.h"
+uint16_t init_pwm1( uint16_t duration_ms, uint16_t dc_perc );
+uint16_t init_pwm2( uint16_t duration_ms, uint16_t dc_perc );
 
-enum MOVEMENT{LEFT, RIGHT, FORWARD, BACKWARD, BRAKE, STOP};
-
-uint16_t pwm2_setup( uint16_t duration_ms, uint16_t dc_perc );
+uint16_t pwm1_change_dc( uint16_t dc_perc );
 uint16_t pwm2_change_dc( uint16_t dc_perc );
+
+void pwm1_run( void );
 void pwm2_run( void );
+
+void pwm1_stop( void );
 void pwm2_stop( void );
 
 void pwm2_sin_modulation( void );
