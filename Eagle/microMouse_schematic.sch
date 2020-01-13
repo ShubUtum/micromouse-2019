@@ -20344,57 +20344,6 @@ Operational amplifiers,  comparators, voltage regulators, ADCs, DACs, etc.&lt;p&
 <rectangle x1="-0.889" y1="-1.27" x2="0.889" y2="-0.762" layer="51"/>
 <rectangle x1="1.651" y1="-1.27" x2="3.429" y2="-0.762" layer="51"/>
 </package>
-<package name="TO92" urn="urn:adsk.eagle:footprint:16150/1" library_version="7">
-<description>&lt;b&gt;TO-92&lt;/b&gt;</description>
-<wire x1="-2.095" y1="-1.651" x2="-0.7869" y2="2.5484" width="0.1524" layer="21" curve="-111.097684"/>
-<wire x1="0.7869" y1="2.5484" x2="2.095" y2="-1.651" width="0.1524" layer="21" curve="-111.097684"/>
-<wire x1="-2.095" y1="-1.651" x2="2.095" y2="-1.651" width="0.1524" layer="21"/>
-<wire x1="-2.254" y1="-0.254" x2="-0.286" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="-2.655" y1="-0.254" x2="-2.254" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="-0.286" y1="-0.254" x2="0.286" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="2.254" y1="-0.254" x2="2.655" y2="-0.254" width="0.1524" layer="21"/>
-<wire x1="0.286" y1="-0.254" x2="2.254" y2="-0.254" width="0.1524" layer="51"/>
-<wire x1="-0.7864" y1="2.5484" x2="0.7864" y2="2.5484" width="0.1524" layer="51" curve="-34.298964"/>
-<pad name="1" x="-1.27" y="0" drill="0.8128" shape="octagon"/>
-<pad name="2" x="0" y="1.905" drill="0.8128" shape="octagon"/>
-<pad name="3" x="1.27" y="0" drill="0.8128" shape="octagon"/>
-<text x="2.413" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="2.921" y="-1.27" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-<package name="TO220H" urn="urn:adsk.eagle:footprint:16151/1" library_version="7">
-<description>&lt;b&gt;TO-220&lt;/b&gt;</description>
-<wire x1="-5.207" y1="-7.62" x2="5.207" y2="-7.62" width="0.1524" layer="21"/>
-<wire x1="5.207" y1="8.255" x2="-5.207" y2="8.255" width="0.1524" layer="21"/>
-<wire x1="5.207" y1="-7.62" x2="5.207" y2="4.826" width="0.1524" layer="21"/>
-<wire x1="5.207" y1="4.826" x2="4.318" y2="4.826" width="0.1524" layer="21"/>
-<wire x1="4.318" y1="4.826" x2="4.318" y2="6.35" width="0.1524" layer="21"/>
-<wire x1="4.318" y1="6.35" x2="5.207" y2="6.35" width="0.1524" layer="21"/>
-<wire x1="5.207" y1="6.35" x2="5.207" y2="8.255" width="0.1524" layer="21"/>
-<wire x1="-5.207" y1="-7.62" x2="-5.207" y2="4.826" width="0.1524" layer="21"/>
-<wire x1="-5.207" y1="4.826" x2="-4.318" y2="4.826" width="0.1524" layer="21"/>
-<wire x1="-4.318" y1="4.826" x2="-4.318" y2="6.35" width="0.1524" layer="21"/>
-<wire x1="-4.318" y1="6.35" x2="-5.207" y2="6.35" width="0.1524" layer="21"/>
-<wire x1="-5.207" y1="6.35" x2="-5.207" y2="8.255" width="0.1524" layer="21"/>
-<wire x1="-4.572" y1="-6.985" x2="4.572" y2="-6.985" width="0.0508" layer="21"/>
-<wire x1="4.572" y1="1.27" x2="4.572" y2="-6.985" width="0.0508" layer="21"/>
-<wire x1="4.572" y1="1.27" x2="-4.572" y2="1.27" width="0.0508" layer="21"/>
-<wire x1="-4.572" y1="-6.985" x2="-4.572" y2="1.27" width="0.0508" layer="21"/>
-<circle x="0" y="4.826" radius="1.8034" width="0.1524" layer="21"/>
-<circle x="0" y="4.826" radius="2.54" width="0" layer="43"/>
-<circle x="0" y="4.826" radius="2.54" width="0" layer="42"/>
-<pad name="1" x="-2.54" y="-10.16" drill="1.1176" shape="long" rot="R90"/>
-<pad name="2" x="0" y="-10.16" drill="1.1176" shape="long" rot="R90"/>
-<pad name="3" x="2.54" y="-10.16" drill="1.1176" shape="long" rot="R90"/>
-<text x="-5.461" y="-10.922" size="1.778" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="7.366" y="-11.049" size="1.778" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
-<rectangle x1="2.159" y1="-11.049" x2="2.921" y2="-10.414" layer="21"/>
-<rectangle x1="-0.381" y1="-11.049" x2="0.381" y2="-10.414" layer="21"/>
-<rectangle x1="-2.921" y1="-11.049" x2="-2.159" y2="-10.414" layer="21"/>
-<rectangle x1="-3.175" y1="-10.414" x2="-1.905" y2="-7.62" layer="21"/>
-<rectangle x1="-0.635" y1="-10.414" x2="0.635" y2="-7.62" layer="21"/>
-<rectangle x1="1.905" y1="-10.414" x2="3.175" y2="-7.62" layer="21"/>
-<hole x="0" y="4.826" drill="3.302"/>
-</package>
 <package name="SOT223" urn="urn:adsk.eagle:footprint:28484/1" library_version="7">
 <description>&lt;b&gt;Small Outline Transistor&lt;/b&gt;</description>
 <wire x1="3.2766" y1="1.778" x2="3.2766" y2="-1.778" width="0.2032" layer="21"/>
@@ -20420,40 +20369,6 @@ Operational amplifiers,  comparators, voltage regulators, ADCs, DACs, etc.&lt;p&
 <rectangle x1="-2.7432" y1="-3.6576" x2="-1.8796" y2="-1.8034" layer="51"/>
 <rectangle x1="1.8796" y1="-3.6576" x2="2.7432" y2="-1.8034" layer="51"/>
 </package>
-<package name="TO263-3" urn="urn:adsk.eagle:footprint:16186/1" library_version="7">
-<description>&lt;b&gt;TO-263 3-Lead Plastic Surface Mount Package&lt;/b&gt; NS Package Number TS3B&lt;p&gt;
-Source. http://cache.national.com/ds/LM/LM2937-2.5.pdf</description>
-<wire x1="5.094" y1="7.165" x2="5.094" y2="-2.88" width="0.2032" layer="51"/>
-<wire x1="5.094" y1="-2.88" x2="-5.094" y2="-2.88" width="0.2032" layer="21"/>
-<wire x1="-5.094" y1="-2.88" x2="-5.094" y2="7.165" width="0.2032" layer="51"/>
-<wire x1="-5.094" y1="7.165" x2="5.094" y2="7.165" width="0.2032" layer="51"/>
-<wire x1="-5.105" y1="7.267" x2="-5.105" y2="7.678" width="0.2032" layer="51"/>
-<wire x1="-5.105" y1="7.678" x2="-3.378" y2="8.135" width="0.2032" layer="51"/>
-<wire x1="-3.378" y1="8.135" x2="3.378" y2="8.135" width="0.2032" layer="51"/>
-<wire x1="3.378" y1="8.135" x2="5.105" y2="7.678" width="0.2032" layer="51"/>
-<wire x1="5.105" y1="7.678" x2="5.105" y2="7.267" width="0.2032" layer="51"/>
-<wire x1="5.105" y1="7.267" x2="-5.105" y2="7.267" width="0.2032" layer="51"/>
-<smd name="TAB" x="0" y="2.54" dx="10.8" dy="10.41" layer="1"/>
-<smd name="2" x="0" y="-5.7912" dx="1.0668" dy="2.159" layer="1"/>
-<smd name="1" x="-2.54" y="-5.7912" dx="1.0668" dy="2.159" layer="1"/>
-<smd name="3" x="2.54" y="-5.7912" dx="1.0668" dy="2.159" layer="1"/>
-<text x="-5.588" y="-5.588" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="6.858" y="-5.588" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
-<rectangle x1="-0.4826" y1="-6.604" x2="0.4826" y2="-4.445" layer="51"/>
-<rectangle x1="-0.4826" y1="-4.4704" x2="0.4826" y2="-2.794" layer="21"/>
-<rectangle x1="-3.0226" y1="-6.604" x2="-2.0574" y2="-4.445" layer="51"/>
-<rectangle x1="-3.0226" y1="-4.4704" x2="-2.0574" y2="-2.794" layer="21"/>
-<rectangle x1="2.0574" y1="-6.604" x2="3.0226" y2="-4.445" layer="51"/>
-<rectangle x1="2.0574" y1="-4.4704" x2="3.0226" y2="-2.794" layer="21"/>
-<polygon width="0.2032" layer="51">
-<vertex x="-5.1054" y="7.267"/>
-<vertex x="-5.1054" y="7.6782"/>
-<vertex x="-3.3782" y="8.1354"/>
-<vertex x="3.3782" y="8.1354"/>
-<vertex x="5.1054" y="7.6782"/>
-<vertex x="5.1054" y="7.267"/>
-</polygon>
-</package>
 </packages>
 <packages3d>
 <package3d name="DPACK" urn="urn:adsk.eagle:package:16449/2" type="model" library_version="7">
@@ -20469,29 +20384,10 @@ Source. http://cache.national.com/ds/LM/LM2937-2.5.pdf</description>
 <packageinstance name="TO220V"/>
 </packageinstances>
 </package3d>
-<package3d name="TO92" urn="urn:adsk.eagle:package:16416/2" type="model" library_version="7">
-<description>TO-92</description>
-<packageinstances>
-<packageinstance name="TO92"/>
-</packageinstances>
-</package3d>
-<package3d name="TO220H" urn="urn:adsk.eagle:package:16414/1" type="box" library_version="7">
-<description>TO-220</description>
-<packageinstances>
-<packageinstance name="TO220H"/>
-</packageinstances>
-</package3d>
 <package3d name="SOT223" urn="urn:adsk.eagle:package:28541/2" type="model" library_version="7">
 <description>Small Outline Transistor</description>
 <packageinstances>
 <packageinstance name="SOT223"/>
-</packageinstances>
-</package3d>
-<package3d name="TO263-3" urn="urn:adsk.eagle:package:16425/2" type="model" library_version="7">
-<description>TO-263 3-Lead Plastic Surface Mount Package NS Package Number TS3B
-Source. http://cache.national.com/ds/LM/LM2937-2.5.pdf</description>
-<packageinstances>
-<packageinstance name="TO263-3"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -20508,17 +20404,17 @@ Source. http://cache.national.com/ds/LM/LM2937-2.5.pdf</description>
 <pin name="ADJ" x="0" y="-5.08" visible="pad" length="short" direction="in" rot="R90"/>
 <pin name="VO" x="10.16" y="2.54" length="short" direction="pas" rot="R180"/>
 </symbol>
-<symbol name="78XX" urn="urn:adsk.eagle:symbol:16149/1" library_version="7">
-<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.4064" layer="94"/>
-<wire x1="7.62" y1="-5.08" x2="7.62" y2="2.54" width="0.4064" layer="94"/>
-<wire x1="7.62" y1="2.54" x2="-7.62" y2="2.54" width="0.4064" layer="94"/>
-<wire x1="-7.62" y1="2.54" x2="-7.62" y2="-5.08" width="0.4064" layer="94"/>
-<text x="-7.62" y="5.715" size="1.778" layer="95">&gt;NAME</text>
-<text x="-7.62" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.032" y="-4.318" size="1.524" layer="95">GND</text>
-<pin name="VI" x="-10.16" y="0" length="short" direction="in"/>
-<pin name="GND" x="0" y="-7.62" visible="pad" length="short" direction="pas" rot="R90"/>
-<pin name="VO" x="10.16" y="0" length="short" direction="pas" rot="R180"/>
+<symbol name="LM340S" urn="urn:adsk.eagle:symbol:16283/1" library_version="7">
+<wire x1="-5.08" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="5.08" x2="7.62" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-2.54" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-2.54" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+<text x="-5.08" y="6.35" size="1.778" layer="95">&gt;NAME</text>
+<text x="3.81" y="-5.08" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="GND@1" x="-2.54" y="-5.08" visible="pad" length="short" direction="pwr" rot="R90"/>
+<pin name="IN" x="-7.62" y="2.54" length="short" direction="in"/>
+<pin name="OUT" x="10.16" y="2.54" length="short" direction="pas" rot="R180"/>
+<pin name="GND@2" x="0" y="-5.08" visible="pad" length="short" direction="pwr" rot="R90"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -20579,102 +20475,25 @@ Source: http://www.onsemi.com/pub/Collateral/MC33269-D.PDF</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="LM340?-*" urn="urn:adsk.eagle:component:16736/6" prefix="IC" library_version="7">
-<description>Positive &lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;&lt;p&gt;
+<deviceset name="LM340S" urn="urn:adsk.eagle:component:16677/4" prefix="IC" library_version="7">
+<description>&lt;b&gt;3-Terminal Positive Regulators&lt;/b&gt;&lt;p&gt;
 Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <gates>
-<gate name="A" symbol="78XX" x="22.86" y="0"/>
+<gate name="G$1" symbol="LM340S" x="0" y="0"/>
 </gates>
 <devices>
-<device name="LZ" package="TO92">
+<device name="" package="SOT223">
 <connects>
-<connect gate="A" pin="GND" pad="2"/>
-<connect gate="A" pin="VI" pad="3"/>
-<connect gate="A" pin="VO" pad="1"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:16416/2"/>
-</package3dinstances>
-<technologies>
-<technology name="05">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="08">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="12">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="15">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="18">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="24">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="H" package="TO220H">
-<connects>
-<connect gate="A" pin="GND" pad="2"/>
-<connect gate="A" pin="VI" pad="1"/>
-<connect gate="A" pin="VO" pad="3"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:16414/1"/>
-</package3dinstances>
-<technologies>
-<technology name="05">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="08">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="12">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="15">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="18">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="24">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="MP" package="SOT223">
-<connects>
-<connect gate="A" pin="GND" pad="4"/>
-<connect gate="A" pin="VI" pad="1"/>
-<connect gate="A" pin="VO" pad="3"/>
+<connect gate="G$1" pin="GND@1" pad="2"/>
+<connect gate="G$1" pin="GND@2" pad="4"/>
+<connect gate="G$1" pin="IN" pad="1"/>
+<connect gate="G$1" pin="OUT" pad="3"/>
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:28541/2"/>
 </package3dinstances>
 <technologies>
-<technology name="05">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-</technologies>
-</device>
-<device name="S" package="TO263-3">
-<connects>
-<connect gate="A" pin="GND" pad="TAB"/>
-<connect gate="A" pin="VI" pad="1"/>
-<connect gate="A" pin="VO" pad="3"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:16425/2"/>
-</package3dinstances>
-<technologies>
-<technology name="05">
-<attribute name="POPULARITY" value="0" constant="no"/>
-</technology>
-<technology name="12">
+<technology name="">
 <attribute name="POPULARITY" value="0" constant="no"/>
 </technology>
 </technologies>
@@ -20748,7 +20567,6 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <part name="IC5" library="linear" library_urn="urn:adsk.eagle:library:262" deviceset="MC33269?*" device="D" package3d_urn="urn:adsk.eagle:package:16449/2" technology="-3.3"/>
 <part name="C7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="CPOL-EU" device="CT3216" package3d_urn="urn:adsk.eagle:package:23327/2" value="10uF Tantalum"/>
 <part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="4K7"/>
-<part name="IC3" library="linear" library_urn="urn:adsk.eagle:library:262" deviceset="LM340?-*" device="MP" package3d_urn="urn:adsk.eagle:package:28541/2" technology="05"/>
 <part name="GND" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA03-1" device="" package3d_urn="urn:adsk.eagle:package:8339/1"/>
 <part name="+3.3V" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA03-1" device="" package3d_urn="urn:adsk.eagle:package:8339/1"/>
 <part name="+5V" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA03-1" device="" package3d_urn="urn:adsk.eagle:package:8339/1"/>
@@ -20776,6 +20594,7 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <part name="D9" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="CGRM400*-G" device="" package3d_urn="urn:adsk.eagle:package:43457/2" technology="1" value="1N5819HW"/>
 <part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="0.5k"/>
 <part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="0.6k"/>
+<part name="IC3" library="linear" library_urn="urn:adsk.eagle:library:262" deviceset="LM340S" device="" package3d_urn="urn:adsk.eagle:package:28541/2" value="LM340MP-5.0"/>
 </parts>
 <sheets>
 <sheet>
@@ -20988,10 +20807,6 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <attribute name="NAME" x="-191.9986" y="158.75" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="-187.198" y="158.75" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="IC3" gate="A" x="-142.24" y="231.14" smashed="yes">
-<attribute name="NAME" x="-149.86" y="236.855" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-149.86" y="234.315" size="1.778" layer="96"/>
-</instance>
 <instance part="GND" gate="G$1" x="-55.88" y="198.12" smashed="yes">
 <attribute name="VALUE" x="-57.15" y="190.5" size="1.778" layer="96"/>
 <attribute name="NAME" x="-57.15" y="203.962" size="1.778" layer="95"/>
@@ -21094,6 +20909,10 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <instance part="R6" gate="G$1" x="30.48" y="139.7" smashed="yes">
 <attribute name="NAME" x="26.67" y="141.1986" size="1.778" layer="95"/>
 <attribute name="VALUE" x="26.67" y="136.398" size="1.778" layer="96"/>
+</instance>
+<instance part="IC3" gate="G$1" x="-142.24" y="228.6" smashed="yes">
+<attribute name="NAME" x="-147.32" y="234.95" size="1.778" layer="95"/>
+<attribute name="VALUE" x="-138.43" y="223.52" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -21528,8 +21347,11 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <wire x1="-142.24" y1="218.44" x2="-127" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="-127" y1="218.44" x2="-127" y2="220.98" width="0.1524" layer="91"/>
 <wire x1="-160.02" y1="220.98" x2="-160.02" y2="218.44" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="A" pin="GND"/>
 <pinref part="C5" gate="G$1" pin="2"/>
+<pinref part="IC3" gate="G$1" pin="GND@2"/>
+<pinref part="IC3" gate="G$1" pin="GND@1"/>
+<wire x1="-144.78" y1="223.52" x2="-142.24" y2="223.52" width="0.1524" layer="91"/>
+<junction x="-142.24" y="223.52"/>
 </segment>
 <segment>
 <pinref part="UART_BT_CONN" gate="G$1" pin="4"/>
@@ -21670,11 +21492,11 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <segment>
 <pinref part="SUPPLY3" gate="G$1" pin="+9V"/>
 <wire x1="-160.02" y1="228.6" x2="-160.02" y2="231.14" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="A" pin="VI"/>
 <wire x1="-160.02" y1="231.14" x2="-160.02" y2="236.22" width="0.1524" layer="91"/>
-<wire x1="-152.4" y1="231.14" x2="-160.02" y2="231.14" width="0.1524" layer="91"/>
+<wire x1="-149.86" y1="231.14" x2="-160.02" y2="231.14" width="0.1524" layer="91"/>
 <junction x="-160.02" y="231.14"/>
 <pinref part="C5" gate="G$1" pin="1"/>
+<pinref part="IC3" gate="G$1" pin="IN"/>
 </segment>
 <segment>
 <pinref part="D5" gate="G$1" pin="C"/>
@@ -21889,10 +21711,10 @@ Source: http://cache.national.com/ds/LM/LM340.pdf</description>
 <wire x1="-127" y1="236.22" x2="-127" y2="231.14" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="1"/>
 <pinref part="SUPPLY5" gate="+5V" pin="+5V"/>
-<pinref part="IC3" gate="A" pin="VO"/>
 <wire x1="-127" y1="231.14" x2="-127" y2="228.6" width="0.1524" layer="91"/>
 <wire x1="-132.08" y1="231.14" x2="-127" y2="231.14" width="0.1524" layer="91"/>
 <junction x="-127" y="231.14"/>
+<pinref part="IC3" gate="G$1" pin="OUT"/>
 </segment>
 <segment>
 <pinref part="UART_BT_CONN" gate="G$1" pin="5"/>
