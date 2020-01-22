@@ -8,7 +8,9 @@
 #include <xc.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "pid.h"
+#include "uart.h"
 
 
 /************************************************************************
@@ -19,9 +21,9 @@
  * min_op:  PID Controller output signal min value     (PWM DC min value -100)
  * max_op:  PID Controller output signal max value     (PWM DC max value 100)
  ************************************************************************/
-pid_params* init_pid( float kp, float ki, int16_t min_ip, int16_t max_ip, int16_t min_op, int16_t max_op ) {
+void init_pid( pid_params *pid, float kp, float ki, int16_t min_ip, int16_t max_ip, int16_t min_op, int16_t max_op ) {
 
-   pid_params *pid = malloc( sizeof( pid_params ) );
+   memset( pid, 0, sizeof(*pid) );
 
    pid->kf              = (max_op * 100) / max_ip;     // forward coeff: x100 unit to avoid floating operations e.g. kf 2 will be represented as 200
    pid->kp              = (uint16_t) (kp*100);         // x100 and change to int e.g kp 1.23 will be represented as 123
@@ -30,8 +32,6 @@ pid_params* init_pid( float kp, float ki, int16_t min_ip, int16_t max_ip, int16_
    pid->i_error_limit   = max_ip - min_ip;             // limit I accumulated error to the max input value range e.g motor speed range
    pid->min_op          = min_op;
    pid->max_op          = max_op;
-
-   return pid;
 }
 
 
@@ -58,5 +58,8 @@ int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val
     /* limit the output signal to the output signal range */
     if( op > pid->max_op )    op = pid->max_op;
     if( op < pid->min_op )    op = pid->min_op;
+    
+    LOG("error= %d, i_error= %d, DC= %d \n\r", error, pid->i_error, op);
+    
     return op;
  }

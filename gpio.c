@@ -1,5 +1,7 @@
 
 #include "gpio.h"
+#include "uart.h"
+uint16_t error_flag = 0;
 
 void initIO() {
     int i;
@@ -48,6 +50,7 @@ void initIO() {
     TRISBbits.TRISB8  =0; //PWM2H1 & RED LED output
     TRISBbits.TRISB15 =0; //GREEN LED output
     TRISBbits.TRISB6  =0; //RED LED
+    TRISBbits.TRISB8  =0; //PWM_RED LED
     TRISBbits.TRISB4  =0; //H bridge dir control 1
     TRISBbits.TRISB5  =0; //H bridge dir control 2
     //TRISBbits.TRISB12 =0; //UART2 TX
@@ -90,7 +93,9 @@ void initIO() {
 }
 
 void error() {
+    LOG("\n\r\n\rxxxxxxxxxxxx\n\r ERROR \n\rxxxxxxxxxxxx\n\r");
     RED_LED     = 1;
     GREEN_LED   = 1;
+    error_flag = 1;
 }
 

@@ -1,5 +1,6 @@
 
 #include <xc.h> 
+#include <stdio.h>
 #include "timer.h"
 #include "pwm.h"
 #include "gpio.h"
@@ -62,14 +63,22 @@ int main(void) {
     
     initIO();
     configUART2(57.6, 40);
+    //configUART2(38.4, 40);   // BT baudrate 38400
    
+    
     timer1_setup( 10 );        // 10 ms timer 
     setupADC1();
     initDmaChannel4();
+    
+    //init_pwm2( 10, 100 );   // 1KHz PWM (1ms period)
     //pwm2_run();
+
     startADC1();
- 
+
+    LOG( "\n\r\n\r\n\r.....   START MICRO-MOUSE   ..... %d\n\r", 2020 );
+
     timer1_start();
+
     while(1);
 
     return 0;

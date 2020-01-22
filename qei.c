@@ -12,8 +12,8 @@
 #include <dsp.h>
 #include <stdio.h>
 
-qei_params *qei1;
-qei_params *qei2;
+qei_params qei1;
+qei_params qei2;
 
 
 
@@ -24,16 +24,13 @@ static int16_t qei_get_poscnt_speed( qei_params *qei );
 // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
 void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_gain, uint16_t wheel_circumference) {
 
-   /* alloc QEI 1 config parameters */
-   qei1 = malloc( sizeof(qei_params) );
-
    /* init QEI 1 config parameters */
-   qei1->longCNT             = 0;
-   qei1->prev_count          = 0;
-   qei1->base_resolution     = base_resolution;
-   qei1->gearing_ratio       = gearing_ratio;
-   qei1->edge_gain           = edge_gain;
-   qei1->wheel_circumference = wheel_circumference;
+   qei1.longCNT             = 0;
+   qei1.prev_count          = 0;
+   qei1.base_resolution     = base_resolution;
+   qei1.gearing_ratio       = gearing_ratio;
+   qei1.edge_gain           = edge_gain;
+   qei1.wheel_circumference = wheel_circumference;
 
      // Configure QEI pins as digital inputs
     //ADPCFGbits.PCFG5 = 1; // QEB on pin 7 shared with AN5
@@ -55,7 +52,7 @@ void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
     // set initial counter value and maximum range
     MAX1CNT = 0xffff;    // set the highest possible time out
     POS1CNT = 0x7fff;    // set POS1CNT into middle of range
-    qei1->prev_count = POS1CNT;
+    qei1.prev_count = POS1CNT;
 
     // Configure Interrupt controller
     IFS3bits.QEI1IF = 0;        // clear interrupt flag
@@ -66,16 +63,13 @@ void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
 // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
 void init_QEI_2(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_gain, uint16_t wheel_circumference) {
 
-   /* alloc QEI 2 config parameters */
-   qei2 = malloc( sizeof(qei_params) );
-
    /* init QEI 2 config parameters */
-   qei2->longCNT             = 0;
-   qei2->prev_count          = 0;
-   qei2->base_resolution     = base_resolution;
-   qei2->gearing_ratio       = gearing_ratio;
-   qei2->edge_gain           = edge_gain;
-   qei2->wheel_circumference = wheel_circumference;
+   qei2.longCNT             = 0;
+   qei2.prev_count          = 0;
+   qei2.base_resolution     = base_resolution;
+   qei2.gearing_ratio       = gearing_ratio;
+   qei2.edge_gain           = edge_gain;
+   qei2.wheel_circumference = wheel_circumference;
 
     // Configure QEI module
     QEI2CONbits.QEIM = 0;        // Disable QEI Module
@@ -93,7 +87,7 @@ void init_QEI_2(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
     // set initial counter value and maximum range
     MAX2CNT = 0xffff;    // set the highest possible time out
     POS2CNT = 0x7fff;    // set POS1CNT into middle of range
-    qei2->prev_count = POS2CNT;
+    qei2.prev_count = POS2CNT;
 
     // Configure Interrupt controller
     IFS4bits.QEI2IF = 0;        // clear interrupt flag
@@ -107,10 +101,10 @@ void __attribute__((interrupt, auto_psv)) _QEI1Interrupt(void)
     IFS3bits.QEI1IF = 0; // clear interrupt flag
     
     if(POS1CNT < 32768) {
-       qei1->longCNT += 0x10000; // over-run condition caused interrupt
+       qei1.longCNT += 0x10000; // over-run condition caused interrupt
     }
     else {
-       qei1->longCNT -= 0x10000; // under-run condition caused interrupt
+       qei1.longCNT -= 0x10000; // under-run condition caused interrupt
     }
 }
 
@@ -120,24 +114,24 @@ void __attribute__((interrupt, auto_psv)) _QEI2Interrupt(void)
     IFS4bits.QEI2IF = 0; // clear interrupt flag
 
     if(POS2CNT < 32768) {
-       qei2->longCNT += 0x10000; // over-run condition caused interrupt
+       qei2.longCNT += 0x10000; // over-run condition caused interrupt
     }
     else {
-       qei2->longCNT -= 0x10000; // under-run condition caused interrupt
+       qei2.longCNT -= 0x10000; // under-run condition caused interrupt
     }
 }
 
 float qei_calc_velocity(uint16_t deltaTime) {
     float f = 1.0f/(deltaTime);
-    long currentCount = qei1->longCNT + POS1CNT;
-    float v = (currentCount - qei1->prev_count) * f;
-    qei1->prev_count = currentCount;
-    v = (2*PI / (qei1->base_resolution * qei1->gearing_ratio * qei1->edge_gain)) * v;
-    if (qei1->wheel_circumference == 0) {
+    long currentCount = qei1.longCNT + POS1CNT;
+    float v = (currentCount - qei1.prev_count) * f;
+    qei1.prev_count = currentCount;
+    v = (2*PI / (qei1.base_resolution * qei1.gearing_ratio * qei1.edge_gain)) * v;
+    if (qei1.wheel_circumference == 0) {
         return v;
     }
     else {
-        return qei1->wheel_circumference * v;
+        return qei1.wheel_circumference * v;
     }
 }
 
@@ -154,9 +148,9 @@ static int16_t qei_get_poscnt_speed( qei_params *qei ) {
 }
 
 int16_t qei1_get_poscnt_speed( void ) {
-   return qei_get_poscnt_speed( qei1 );
+   return qei_get_poscnt_speed( &qei1 );
 }
 int16_t qei2_get_poscnt_speed( void ) {
-   return qei_get_poscnt_speed( qei2 );
+   return qei_get_poscnt_speed( &qei2 );
 }
 

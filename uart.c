@@ -59,7 +59,7 @@ static void set_receive_priority( void) {
 void send_A2Z( void )
 {
     static uint16_t char_A2Z = 'A';
-    U2TXREG = char_A2Z; 
+    U2TXREG = char_A2Z;
     char_A2Z ++;
     if(char_A2Z > 'Z')
     {

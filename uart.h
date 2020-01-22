@@ -10,7 +10,7 @@
 #include "xc.h"
 
 
-#define MAX_LOG_STR_LEN    80
+#define MAX_LOG_STR_LEN    150
 extern char log_str[MAX_LOG_STR_LEN];
 
 #define LOG( log_msg... )             \

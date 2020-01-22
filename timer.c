@@ -108,17 +108,19 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
 
 static void timer_10ms_tick_actions( void ) {
     // pwm2_sin_modulation();
+    GREEN_LED = ~GREEN_LED; // toggle GREEN led
     
     
-    //send_A2Z();
     //motor_calc_max_speed(); // Motor max speed calibration
-    test_motor_PI_control( 30 );
+    test_motor_PI_control( 40 );
 }
 
 static void timer_100ms_tick_actions( void ) {
     //GREEN_LED = ~GREEN_LED; // toggle GREEN led
-    RED_LED = ~RED_LED; // toggle GREEN led
+    //PWM_RED_LED = ~PWM_RED_LED; // toggle RED led
+    RED_LED = ~RED_LED; // toggle RED led
     //test_motor();
     
+    //test_motor_PI_control( 40 );
     //send_A2Z();
 }

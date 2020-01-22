@@ -13,23 +13,33 @@
 
 #define GET_LM_SPEED       qei1_get_poscnt_speed()
 #define GET_RM_SPEED       qei2_get_poscnt_speed()
+
+pid_params pid_motor_l;
+pid_params pid_motor_r;
 /************************************************************************
  ************************************************************************/
 pid_params* init_motor_left( uint16_t max_speed )
 {
+    
+   LOG("init Motor \n\r");
+   
    // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
    init_QEI_1(16, 33, 4, 0);
-   init_pwm1( 1, 0 );   // 1KHz PWM (1ms period)
+   init_pwm2( 1, 0 );   // 1KHz PWM (1ms period)
 
-   pid_params *pid_motor_l = init_pid( 0.5,                       // kp
-                                       0.1,                       // ki
-                                       -max_speed, max_speed,     // Motor speed range (PID ip range)
-                                       -100, 100                  // PWM DC range (PID op range)
-                                       );
+
+   LOG("init PID \n\r");
+
+   init_pid( &pid_motor_l,
+             0.5,                       // kp
+             0.1,                       // ki
+             -max_speed, max_speed,     // Motor speed range (PID ip range)
+             -100, 100                  // PWM DC range (PID op range)
+           );
 
    LOG("Left Motor ready\n\r");
 
-   return pid_motor_l;
+   return &pid_motor_l;
 }
 
 /************************************************************************
@@ -40,15 +50,16 @@ pid_params* init_motor_right( uint16_t max_speed )
    init_QEI_2(16, 33, 4, 0);
    init_pwm2( 1, 0 );   // 1KHz PWM (1ms period)
 
-   pid_params *pid_motor_r = init_pid( 0.5,                       // kp
-                                       0.1,                       // ki
-                                       -max_speed, max_speed,     // Motor speed range (PID ip range)
-                                       -100, 100                  // PWM DC range (PID op range)
-                                       );
+   init_pid( &pid_motor_r,
+             0.5,                       // kp
+             0.1,                       // ki
+             -max_speed, max_speed,     // Motor speed range (PID ip range)
+             -100, 100                  // PWM DC range (PID op range)
+           );
 
    LOG("Right Motor ready\n\r");
 
-   return pid_motor_r;
+   return &pid_motor_r;
 }
 
 
@@ -104,7 +115,7 @@ void motor_calc_max_speed( void ) {
         motor_perform( FORWARD, 100 );
     }
     if( RM_pid == NULL ) {    // first_call
-       RM_pid = init_motor_right( MOTOR_MAX_SPEED );
+       //RM_pid = init_motor_right( MOTOR_MAX_SPEED );
         // drive motor with high speed
         //TODO: Right Motor motor_perform( FORWARD, 100 );
     }
@@ -118,21 +129,26 @@ void test_motor_PI_control( uint16_t desired_speed ) {
     static uint16_t time_idx = 0;
     int16_t current_speed;
 
-    if( LM_pid == NULL ) {    // first_call
-       LM_pid = init_motor_left( MOTOR_MAX_SPEED );
-    }
-
-
-    current_speed = GET_LM_SPEED;
-        
-    // calc DC
-    motor_pwm_dc = pid_control( LM_pid, current_speed, desired_speed);
-
-    motor_perform( FORWARD, motor_pwm_dc );
-    //motor_perform( BACKWARD, motor_pwm_dc );
-
     if( time_idx < 200 ) {  // 200 = 2 Seconds
-       LOG( "%d: v = %2d, dc = %3d\n\r", time_idx, current_speed, motor_pwm_dc );
+
+        if( LM_pid == NULL ) {    // first_call
+           LOG("%d: Test Motor PI controller\n\r", time_idx);
+           //LOG("desired_speed= %d \n\r", desired_speed);
+
+           LM_pid = init_motor_left( MOTOR_MAX_SPEED );
+           if( LM_pid == NULL )  error();
+        }
+
+
+        current_speed = GET_LM_SPEED;
+        LOG("current_speed= %d, desired_speed= %d \n\r", current_speed, desired_speed);
+        // calc DC
+        motor_pwm_dc = pid_control( LM_pid, current_speed, desired_speed);
+
+        motor_perform( FORWARD, motor_pwm_dc );
+        //motor_perform( BACKWARD, motor_pwm_dc );
+
+       LOG( "%d: v = %d, dc = %d\n\r", time_idx, current_speed, motor_pwm_dc );
        time_idx++;
     }
 }
