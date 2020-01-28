@@ -25,13 +25,15 @@ void init_pid( pid_params *pid, float kp, float ki, int16_t min_ip, int16_t max_
 
    memset( pid, 0, sizeof(*pid) );
 
-   pid->kf              = (max_op * 100) / max_ip;     // forward coeff: x100 unit to avoid floating operations e.g. kf 2 will be represented as 200
+   pid->kf              = (max_op * 15) / max_ip;     // forward coeff: x100 unit to avoid floating operations e.g. kf 2 will be represented as 200
    pid->kp              = (uint16_t) (kp*100);         // x100 and change to int e.g kp 1.23 will be represented as 123
    pid->ki              = (uint16_t) (ki*100);         // same3 as kp
    pid->i_error         = 0;
-   pid->i_error_limit   = max_ip - min_ip;             // limit I accumulated error to the max input value range e.g motor speed range
+   pid->i_error_limit   = max_ip /*- min_ip*/;             // limit I accumulated error to the max input value range e.g motor speed range
    pid->min_op          = min_op;
    pid->max_op          = max_op;
+   
+   LOG("kf=%d, kp=%d, ki=%d, i_error_limit=%d\n\r", pid->kf, pid->kp, pid->ki, pid->i_error_limit);
 }
 
 
@@ -44,6 +46,7 @@ void init_pid( pid_params *pid, float kp, float ki, int16_t min_ip, int16_t max_
  ************************************************************************/
 int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val ) {
    int16_t op;
+   int16_t tempOp;
    int16_t error = desired_val - current_val;
 
    pid->i_error += error;
@@ -55,11 +58,16 @@ int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val
           pid->kp * error +            // P: proportional amp
           pid->ki * pid->i_error;      // I: integral amp
 
+    
+    op = op*0.01;
+    //tempOp = op/100;
+    //op = tempOp;
+    
     /* limit the output signal to the output signal range */
     if( op > pid->max_op )    op = pid->max_op;
     if( op < pid->min_op )    op = pid->min_op;
     
-    LOG("error= %d, i_error= %d, DC= %d \n\r", error, pid->i_error, op);
+    //LOG("error= %d, i_error= %d, DC= %d \n\r", error, pid->i_error, op);
     
     return op;
  }

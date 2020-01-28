@@ -31,8 +31,8 @@ pid_params* init_motor_left( uint16_t max_speed )
    LOG("init PID \n\r");
 
    init_pid( &pid_motor_l,
-             0.5,                       // kp
-             0.1,                       // ki
+             0.7,                       // kp
+             0.05,                       // ki
              -max_speed, max_speed,     // Motor speed range (PID ip range)
              -100, 100                  // PWM DC range (PID op range)
            );
@@ -109,18 +109,24 @@ void motor_calc_max_speed( void ) {
     static pid_params* LM_pid = NULL;
     static pid_params* RM_pid = NULL;
 
-    if( LM_pid == NULL ) {    // first_call
-       LM_pid = init_motor_left( MOTOR_MAX_SPEED );
-        // drive motor with high speed
-        motor_perform( FORWARD, 100 );
+    static uint16_t time_idx = 0;
+
+    if( time_idx < 200 ) {  // 200 = 2 Seconds
+
+        if( LM_pid == NULL ) {    // first_call
+           LM_pid = init_motor_left( MOTOR_MAX_SPEED );
+            // drive motor with high speed
+            motor_perform( FORWARD, 100 );
+        }
+        if( RM_pid == NULL ) {    // first_call
+           //RM_pid = init_motor_right( MOTOR_MAX_SPEED );
+            // drive motor with high speed
+            //TODO: Right Motor motor_perform( FORWARD, 100 );
+        }
+
+        LOG( "v = %d\n\r", GET_LM_SPEED );
+        time_idx++;
     }
-    if( RM_pid == NULL ) {    // first_call
-       //RM_pid = init_motor_right( MOTOR_MAX_SPEED );
-        // drive motor with high speed
-        //TODO: Right Motor motor_perform( FORWARD, 100 );
-    }
-    
-    LOG( "v = %d\n\r", GET_LM_SPEED );
 }
  
 void test_motor_PI_control( uint16_t desired_speed ) {
@@ -141,14 +147,15 @@ void test_motor_PI_control( uint16_t desired_speed ) {
 
 
         current_speed = GET_LM_SPEED;
-        LOG("current_speed= %d, desired_speed= %d \n\r", current_speed, desired_speed);
+        //LOG("current_speed= %d, desired_speed= %d \n\r", current_speed, desired_speed);
         // calc DC
         motor_pwm_dc = pid_control( LM_pid, current_speed, desired_speed);
 
         motor_perform( FORWARD, motor_pwm_dc );
         //motor_perform( BACKWARD, motor_pwm_dc );
 
-       LOG( "%d: v = %d, dc = %d\n\r", time_idx, current_speed, motor_pwm_dc );
+       LOG( "%d, %d, %d\n\r", time_idx, current_speed, motor_pwm_dc );
+       //LOG( "%d: v = %d, dc = %d\n\r", time_idx, current_speed, motor_pwm_dc );
        time_idx++;
     }
 }
