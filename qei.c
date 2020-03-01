@@ -17,10 +17,6 @@ qei_params qei2;
 
 
 
-static int16_t qei_get_poscnt_speed( qei_params *qei );
-
-
-
 // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
 void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_gain, uint16_t wheel_circumference) {
 
@@ -86,7 +82,7 @@ void init_QEI_2(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
 
     // set initial counter value and maximum range
     MAX2CNT = 0xffff;    // set the highest possible time out
-    POS2CNT = 0x7fff;    // set POS1CNT into middle of range
+    POS2CNT = 0x7fff;    // set POS2CNT into middle of range
     qei2.prev_count = POS2CNT;
 
     // Configure Interrupt controller
@@ -136,21 +132,27 @@ float qei_calc_velocity(uint16_t deltaTime) {
 }
 
 // return POS1CNT change since last call(POS1CNT/time_unit). can be a negative or positive value based on the Motor direction
-static int16_t qei_get_poscnt_speed( qei_params *qei ) {
+int16_t qei1_get_poscnt( void ) {
 
-    uint32_t currentCount = qei->longCNT + POS1CNT;
+    uint32_t currentCount = qei1.longCNT + POS1CNT;
 
-    int16_t v = currentCount - qei->prev_count;
+    int16_t v = currentCount - qei1.prev_count;
 
-    qei->prev_count = currentCount;
+    qei1.prev_count = currentCount;
 
     return v;
 }
 
-int16_t qei1_get_poscnt_speed( void ) {
-   return qei_get_poscnt_speed( &qei1 );
+// return POS2CNT change since last call(POS2CNT/time_unit). can be a negative or positive value based on the Motor direction
+int16_t qei2_get_poscnt( void ) {
+
+    uint32_t currentCount = qei2.longCNT + POS2CNT;
+
+    int16_t v = currentCount - qei2.prev_count;
+
+    qei2.prev_count = currentCount;
+
+    return v;
 }
-int16_t qei2_get_poscnt_speed( void ) {
-   return qei_get_poscnt_speed( &qei2 );
-}
+
 

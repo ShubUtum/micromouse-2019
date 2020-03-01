@@ -8,6 +8,8 @@
 #include "uart.h"
 #include "adc.h"
 #include "dma.h"
+#include "mouse.h"
+#include "fsm.h"
 
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 // FBS
@@ -62,21 +64,20 @@ int main(void) {
     }
     
     initIO();
+    
     configUART2(57.6, 40);
     //configUART2(38.4, 40);   // BT baudrate 38400
-   
     
     timer1_setup( 10 );        // 10 ms timer 
     setupADC1();
     initDmaChannel4();
-    
-    //init_pwm2( 10, 100 );   // 1KHz PWM (1ms period)
-    //pwm2_run();
 
-    startADC1();
+    mouse_init();
+    fsm_init();
 
     LOG( "\n\r\n\r\n\r.....   START MICRO-MOUSE   ..... %d\n\r", 2020 );
 
+    startADC1();
     timer1_start();
 
     while(1);

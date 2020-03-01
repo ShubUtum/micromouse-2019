@@ -1,14 +1,16 @@
 
 #include <xc.h>
+#include <stdio.h>
 #include "timer.h"
 #include "gpio.h"
 #include "uart.h"
-#include <stdio.h>
 #include "pwm.h"
+#include "pushButton.h"
 #include "motor.h"
-
+#include "mouse.h"
 
 static void timer_10ms_tick_actions( void );
+static void timer_50ms_tick_actions( void );
 static void timer_100ms_tick_actions( void );
 
 
@@ -95,7 +97,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt( void ) {
     }
     if( counter %5 == 0  ) {
         // 50 ms tick
-        // add timer_50ms_tick_actions() if there is any 50ms periodic actions required
+        timer_50ms_tick_actions();
     }
     if( counter %10 == 0 ) {
         // 100 ms tick
@@ -110,9 +112,14 @@ static void timer_10ms_tick_actions( void ) {
     // pwm2_sin_modulation();
     GREEN_LED = ~GREEN_LED; // toggle GREEN led
     
-    
     //motor_calc_max_speed(); // Motor max speed calibration
-    test_motor_PI_control( 40 );
+    //test_motor_PI_control( 40 );
+    calc_motors_speed();
+    check_mouse_move();
+}
+
+static void timer_50ms_tick_actions( void ) {
+    check_push_button(50);
 }
 
 static void timer_100ms_tick_actions( void ) {

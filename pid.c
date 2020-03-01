@@ -46,7 +46,6 @@ void init_pid( pid_params *pid, float kp, float ki, int16_t min_ip, int16_t max_
  ************************************************************************/
 int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val ) {
    int16_t op;
-   int16_t tempOp;
    int16_t error = desired_val - current_val;
 
    pid->i_error += error;
@@ -60,8 +59,6 @@ int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val
 
     
     op = op*0.01;
-    //tempOp = op/100;
-    //op = tempOp;
     
     /* limit the output signal to the output signal range */
     if( op > pid->max_op )    op = pid->max_op;

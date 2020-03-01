@@ -7,6 +7,7 @@
 
 #ifndef UART_H
 #define	UART_H
+#include <stdio.h> // for sprintf()
 #include "xc.h"
 
 
