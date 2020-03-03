@@ -122,10 +122,10 @@ void initIO() {
     *   26      RC1             op      Y      GP - Right Motor H bridge dir control 1
     *   25      RC0             op      Y      GP - Right Motor H bridge dir control 2
     *
-    *   32      RA8             op      Y      Front GREEN LED3
-    *   33      RB4             op      Y      Back RED LED4
-    *   3       RC7             op      Y      front mount LED2
-    *   15      RB15            op      Y      Back mount LED1
+    *   32      RA8             op      Y      Front GREEN LED3 Low current
+    *   33      RB4             op      Y      Back RED LED4 Low current
+    *   3       RC7             op      Y      front mount LED2 5mm
+    *   15      RB15            op      Y      Back mount LED1 5mm
     *   34      RA4             op      Y      RGB LED - R
     *   35      RA9             op      Y      RGB LED - G
     *   36      RC3             op      Y      RGB LED - B

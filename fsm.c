@@ -56,7 +56,7 @@ void fsm_handle_event( fsm_event event ) {
 static fsm_state start_idle( void ) {
    LOG( ">>>>>>> Move to IDLE state\n\r" );
 
-   RGB( RED );
+   RGB( RED ); 
    return( IDLE_STATE );
 }
 

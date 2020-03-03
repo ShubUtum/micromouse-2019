@@ -24,8 +24,11 @@
 #define CTRLH_INPUT2 LATBbits.LATB5
 #else
 
-#define RED_LED     LATBbits.LATB4
-#define GREEN_LED   LATAbits.LATA8
+#define BACK_LED     LATBbits.LATB4
+#define FRONT_LED    LATAbits.LATA8
+
+#define RED_LED     LATBbits.LATB15
+#define GREEN_LED   LATCbits.LATC7
 
 #define SW1         PORTBbits.RB9
 
