@@ -36,6 +36,7 @@
       <itemPath>dma.c</itemPath>
       <itemPath>motor.c</itemPath>
       <itemPath>pid.c</itemPath>
+      <itemPath>stack.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
