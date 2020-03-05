@@ -9,6 +9,7 @@
 #define	GPIO_H
 
 #include "xc.h"
+#include <stdio.h>
 
 #define IN_BREAD_BOARD_MODE  0
 

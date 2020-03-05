@@ -11,6 +11,8 @@
 #include "mouse.h"
 #include "fsm.h"
 
+#include "stack.h"
+
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 /*
 // FBS
