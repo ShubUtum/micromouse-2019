@@ -1,10 +1,3 @@
-/*
- * File:   stack.c
- * Author: Sergey
- *
- * Created on November 25, 2019, 2:46 PM
- */
-
 // C program for array implementation of stack 
 #include "stack.h"
 

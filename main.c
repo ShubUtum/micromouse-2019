@@ -12,7 +12,7 @@
 #include "fsm.h"
 
 #include "stack.h"
-
+#include "mazeHandler.h"
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 /*
 // FBS
@@ -137,7 +137,7 @@ int main(void) {
 
     startADC1();
 #endif
-    timer1_start();
+    // timer1_start();
     while(1);
 
     return 0;

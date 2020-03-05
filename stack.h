@@ -1,13 +1,7 @@
-/*
- * File:   stack.h
- * Author: Sergey
- *
- * Created on November 25, 2019, 2:46 PM
- */
+#ifndef STACK_H
+#define	STACK_H
 
-#pragma once
-
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <string.h>
 
 // A structure to represent a stack 
@@ -40,3 +34,5 @@ int pop(Stack* stack, void* target);
 
 // Function to return the top from stack without removing it 
 int peek(Stack* stack, void* target);
+
+#endif	/* STACK_H */
