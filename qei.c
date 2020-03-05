@@ -20,6 +20,7 @@ qei_params qei2;
 // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
 void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_gain, uint16_t wheel_circumference) {
 
+   unsigned int i;
    /* init QEI 1 config parameters */
    qei1.longCNT             = 0;
    qei1.prev_count          = 0;
@@ -54,11 +55,14 @@ void init_QEI_1(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
     IFS3bits.QEI1IF = 0;        // clear interrupt flag
     IEC3bits.QEI1IE = 0;        // enable QEI interrupt
     IPC14bits.QEI1IP = 5;       // set QEI interrupt priority
+
+    for (i = 0; i < 40000; i++); // short delay ~ 1ms
 }
 
 // base_resolution = 16; gearing_ratio = 33; edge_gain = 4;
 void init_QEI_2(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_gain, uint16_t wheel_circumference) {
 
+   unsigned int i;
    /* init QEI 2 config parameters */
    qei2.longCNT             = 0;
    qei2.prev_count          = 0;
@@ -89,6 +93,8 @@ void init_QEI_2(uint16_t base_resolution, uint16_t gearing_ratio, uint16_t edge_
     IFS4bits.QEI2IF = 0;        // clear interrupt flag
     IEC4bits.QEI2IE = 0;        // enable QEI interrupt
     IPC18bits.QEI2IP = 5;       // set QEI interrupt priority
+
+    for (i = 0; i < 40000; i++); // short delay ~ 1ms
 }
 
 // QEI1 interrupt service routine

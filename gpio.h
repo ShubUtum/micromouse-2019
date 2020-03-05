@@ -38,10 +38,10 @@
 #define RM_DIR2 LATCbits.LATC0
 
 typedef enum {
-   OFF   = 0x00,
-   RED   = 0x01,  // BIT 0
-   GREEN = 0x02,  // BIT 1
-   BLUE  = 0x04   // BIT 2
+   ALL_OFF  = 0x00,
+   RED      = 0x01,  // BIT 0
+   GREEN    = 0x02,  // BIT 1
+   BLUE     = 0x04   // BIT 2
 } rgb_color;
 
 #endif    

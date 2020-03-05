@@ -21,6 +21,7 @@ char log_str[MAX_LOG_STR_LEN];
 
 uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
 {
+   unsigned int i;
     float baud_rate_U2BRG;
     baud_rate_U2BRG = (fcy * 1000000 / (16 * (baud_rate * 1000)) ) - 1;
     baud_rate_U2BRG = (int) baud_rate_U2BRG;
@@ -43,6 +44,9 @@ uint16_t configUART2( float baud_rate, uint16_t fcy) //baud_rate in k, fcy in M
     
     uart2_interrupt_init();
     set_receive_priority(); 
+
+    for (i = 0; i < 40000; i++); // short delay ~ 1ms
+
     return 0;
 }
 

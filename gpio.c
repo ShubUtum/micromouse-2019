@@ -134,34 +134,9 @@ void initIO() {
     *   11, 12, 13, 37, 38, 41, 42             Free Pins
     ***********************************************************************/
     // set up analog pins
-    AD1CON1bits.ADON = 0; // disable ADC1 module
-    AD1PCFGL=0xFFFF; //all pins are digital
+    AD1CON1bits.ADON = 0;  // disable ADC1 module
+    AD1PCFGL=0xFFFF;       //all pins are digital
    
-    // set digital port direction
-    // inputs
-    //all pins are inputs by default
-    TRISBbits.TRISB9  =1; //Switch input
-    //TRISBbits.TRISB8 =1; //UART2 RX
-
-    //outputs
-    TRISBbits.TRISB14 =0; //PWM1H1 (RM))
-    TRISBbits.TRISB12 =0; //PWM1H2 (Buzzer)
-    TRISCbits.TRISC8  =0; //PWM2H1 (LM))
-    
-    TRISCbits.TRISC8  =0; //LM - H bridge dir control 1
-    TRISCbits.TRISC9  =0; //LM - H bridge dir control 2
-    TRISCbits.TRISC1  =0; //RM - H bridge dir control 1
-    TRISCbits.TRISC0  =0; //RM - H bridge dir control 2
-    //TRISBbits.TRISB7 =0; //UART2 TX
-    
-    TRISAbits.TRISA8  =0; //Front GREEN LED3
-    TRISBbits.TRISB4  =0; //Back RED LED4
-    TRISBbits.TRISB15 =0; //LED1
-    TRISCbits.TRISC7  =0; //LED2
-    TRISCbits.TRISC3  =0; //LED RGB 2 (B)
-    TRISAbits.TRISA9  =0; //LED RGB 3 (G)
-    TRISAbits.TRISA4  =0; //LED RGB 4 (R)
-    
     // set up remappable pins
     __builtin_write_OSCCONL(OSCCON & 0xbf); // clear bit 6 (unlock, they are usually write protected)
     // inputs
@@ -200,8 +175,37 @@ void initIO() {
     
     __builtin_write_OSCCONL(OSCCON | 0x40); // Lock PPS registers (lock again!)
 
+    for (i = 0; i < 40000; i++); // short delay ~ 1ms
 
-    for (i = 0; i < 30000; i++); // short delay
+    PMCON = 0;    // disable PARALLEL MASTER PORT PMP
+    PMAEN = 0;    // PMP pins function as port I/O
+
+    // set digital port direction
+    // inputs
+    //all pins are inputs by default
+    TRISBbits.TRISB9  =1; //Switch input
+    //TRISBbits.TRISB8 =1; //UART2 RX
+
+    //outputs
+    TRISBbits.TRISB14 =0; //PWM1H1 (RM))
+    TRISBbits.TRISB12 =0; //PWM1H2 (Buzzer)
+    TRISCbits.TRISC8  =0; //PWM2H1 (LM))
+
+    TRISCbits.TRISC8  =0; //LM - H bridge dir control 1
+    TRISCbits.TRISC9  =0; //LM - H bridge dir control 2
+    TRISCbits.TRISC1  =0; //RM - H bridge dir control 1
+    TRISCbits.TRISC0  =0; //RM - H bridge dir control 2
+    //TRISBbits.TRISB7 =0; //UART2 TX
+
+    TRISAbits.TRISA8  =0; //Front GREEN LED3
+    TRISBbits.TRISB4  =0; //Back RED LED4
+    TRISBbits.TRISB15 =0; //LED1 RB15
+    TRISCbits.TRISC7  =0; //LED2 RC7
+    TRISCbits.TRISC3  =0; //LED RGB 2 RC3 (B)
+    TRISAbits.TRISA9  =0; //LED RGB 3 RA9 (G)
+    TRISAbits.TRISA4  =0; //LED RGB 4 RA4 (R)
+
+    for (i = 0; i < 40000; i++); // short delay ~ 1ms
 }
 #endif
 
@@ -213,7 +217,8 @@ void error() {
 }
 
 void RGB( uint16_t color) {
-   if( color & RED ) {
+   // always disable RED due to pin current draw limitation
+   if( 0 && (color & RED) ) {
       LATAbits.LATA4 = 1;
    }
    else {

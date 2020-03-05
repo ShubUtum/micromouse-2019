@@ -81,7 +81,7 @@
 #pragma config FWDTEN = OFF             // Watchdog Timer Enable (Watchdog timer enabled/disabled by user software)
 
 // FPOR
-#pragma config FPWRT = PWR1             // POR Timer Value (Disabled)
+#pragma config FPWRT = PWR128           // POR Timer Value (128ms)
 #pragma config ALTI2C = OFF             // Alternate I2C  pins (I2C mapped to SDA1/SCL1 pins)
 #pragma config LPOL = ON                // Motor Control PWM Low Side Polarity bit (PWM module low side output pins have active-high output polarity)
 #pragma config HPOL = ON                // Motor Control PWM High Side Polarity bit (PWM module high side output pins have active-high output polarity)
@@ -103,6 +103,10 @@ int main(void) {
     CLKDIVbits.PLLPRE  = 0; //N1 = input/2
     CLKDIVbits.PLLPOST = 0; //N2 = output/2
     CLKDIVbits.FRCDIV  = 0;
+
+    // Disable Watch Dog Timer
+    RCONbits.SWDTEN=0;
+
     if (IN_SIMULATION_MODE != 1)
     {
         while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
@@ -115,20 +119,21 @@ int main(void) {
     RGB(RED|GREEN|BLUE);
     BACK_LED = 1;
     FRONT_LED = 1;
+
     configUART2(57.6, 40);
     //configUART2(38.4, 40);   // BT baudrate 38400
     
     timer1_setup( 10 );        // 10 ms timer 
+
+    LOG( "\n\r\n\r\n\r.....   START MICRO-MOUSE   ..... \n\r" );
+#if 0
     setupADC1();
     initDmaChannel4();
 
     mouse_init();
     fsm_init();
 
-    LOG( "\n\r\n\r\n\r.....   START MICRO-MOUSE   ..... \n\r" );
-
-    //startADC1();
-#if 0
+    startADC1();
 #endif
     timer1_start();
     while(1);
