@@ -1,9 +1,23 @@
 #include "mazeHandler.h"
 
-int maze_memory[MAZE_WIDTH * MAZE_WIDTH];
+const Coordinate GOALS[4] = { {7, 7}, {8, 7}, {7, 8}, {8, 8} };
+const Coordinate START = { 0, 0 };
 
-int flattenCoords(int col, int row) {
-	return row + MAZE_WIDTH * col;
+int maze_memory[MAZE_WIDTH * MAZE_WIDTH];
+Coordinate currentMazeLocation;
+int currentDirection;
+
+int flattenCoords(int x, int y) {
+	return y + MAZE_WIDTH * x;
+}
+
+int checkIfGoalCoord(int x, int y) {
+    int i;
+	for (i = 0; i < sizeof(GOALS) / sizeof(GOALS[0]); i++) {
+		if (GOALS[i].x == x && GOALS[i].y == y)
+			return 1;
+	}
+	return 0;
 }
 
 void updateMaze(Coordinate* current, int walls) {
@@ -25,16 +39,16 @@ void updateMaze(Coordinate* current, int walls) {
 	}
 }
 
-void initMaze(Coordinate goals[]) {
+void initMaze() {
 	int distance;
-    int x;
-    int y;
+	int x;
+	int y;
 	for (x = 0; x < MAZE_WIDTH; x++) {
 		for (y = 0; y < MAZE_WIDTH; y++) {
 			distance = INT_MAX;
-            int i;
-			for (i = 0; i < sizeof(goals); i++) {
-                int temp_distance = abs(x - goals[i].x) + abs(y - goals[i].y);
+			int i;
+			for (i = 0; i < sizeof(GOALS) / sizeof(GOALS[0]); i++) {
+				int temp_distance = abs(x - GOALS[i].x) + abs(y - GOALS[i].y);
 				distance = distance < temp_distance ? distance : temp_distance;
 			}
 			maze_memory[flattenCoords(x, y)] = distance << 8;

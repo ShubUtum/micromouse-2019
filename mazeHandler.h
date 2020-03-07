@@ -15,12 +15,18 @@
 #define MAZE_WIDTH	16
 #define MAZE_HEIGHT	0 //TODO
 
-extern int maze_memory[MAZE_WIDTH * MAZE_WIDTH];
+extern const Coordinate GOALS[4];
+extern const Coordinate START;
 
-int flattenCoords(int col, int row);
+extern int maze_memory[MAZE_WIDTH * MAZE_WIDTH];
+extern Coordinate currentMazeLocation;
+extern int currentDirection;
+
+int flattenCoords(int x, int y);
+int checkIfGoalCoord(int x, int y);
 
 void updateMaze(Coordinate* current, int walls);
-void initMaze(Coordinate goals[]);
+void initMaze();
 
 void printMaze(int* maze, Coordinate* current, int dir);
 

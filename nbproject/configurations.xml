@@ -19,6 +19,7 @@
       <itemPath>stack.h</itemPath>
       <itemPath>coordinate.h</itemPath>
       <itemPath>mazeHandler.h</itemPath>
+      <itemPath>maze_solver.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -42,6 +43,7 @@
       <itemPath>mouse.c</itemPath>
       <itemPath>fsm.c</itemPath>
       <itemPath>mazeHandler.c</itemPath>
+      <itemPath>maze_solver.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

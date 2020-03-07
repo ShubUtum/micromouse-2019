@@ -11,8 +11,7 @@
 #include "mouse.h"
 #include "fsm.h"
 
-#include "stack.h"
-#include "mazeHandler.h"
+#include "maze_solver.h"
 // configuration bits, can be configured using GUI: window -> target memory views -> configuration bits 
 /*
 // FBS

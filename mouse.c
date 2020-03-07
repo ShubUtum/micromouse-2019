@@ -6,18 +6,20 @@
 #include "motor.h"
 #include "mouse.h"
 #include "fsm.h"
+#include "coordinate.h"
+#include "mazeHandler.h"
 
 #define MOTOR_SPEED     (MOTOR_MAX_SPEED-10)
 
 #define CELL_POSCNT_DIST        10000     // one cell (16 cm) distance in POSCNT unit
 #define ROTATE_POSCNT_DIST      2000      // distance of each wheel in POSCNT unit when mouse rotate
 
-enum MOVEMENT{LEFT, RIGHT, FORWARD, BACKWARD, BRAKE, STOP};
-
 int               desired_LM_speed;
 int               desired_RM_speed;
 int               desired_poscnt_dist;
 enum MOVEMENT     curr_move;
+
+mouse_action actionsBuffer[10] = { NULL };
 
 static void mouse_move_done( void );
 static uint16_t get_mouse_moved_dist( void );
@@ -43,6 +45,14 @@ void mouse_move_fw( void ) {
     
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
+    
+    switch (currentDirection)
+	{
+	case NORTH: currentMazeLocation.y++; break;
+	case EAST: currentMazeLocation.x++; break;
+	case SOUTH: currentMazeLocation.y--; break;
+	case WEST: currentMazeLocation.x--; break;
+	}
 }
 
 void mouse_move_bw( void ) {
@@ -54,6 +64,14 @@ void mouse_move_bw( void ) {
     
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
+    
+    switch (currentDirection)
+	{
+	case NORTH: currentMazeLocation.y--; break;
+	case EAST: currentMazeLocation.x--; break;
+	case SOUTH: currentMazeLocation.y++; break;
+	case WEST: currentMazeLocation.x++; break;
+	}
 }
 
 void mouse_rotate_left( void ) {
@@ -65,6 +83,8 @@ void mouse_rotate_left( void ) {
     
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
+    
+    currentDirection = ((currentDirection >> 1) | (currentDirection << (4 - 1))) & 0b1111;
 }
 
 void mouse_rotate_right( void ) {
@@ -76,6 +96,8 @@ void mouse_rotate_right( void ) {
     
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
+    
+    currentDirection = ((currentDirection << 1) | (currentDirection >> (4 - 1))) & 0b1111;
 }
 
 void check_mouse_move( void ) {
@@ -167,4 +189,12 @@ void demo2_stair( void ) {
    (*procedure[ curr_step++ ])();
 
    if( curr_step == steps_cnt ) curr_step = 0;
+}
+
+void perform_actions() {
+	static int curr_step = 0;
+	
+    (*actionsBuffer[ curr_step++ ])();
+
+   if( actionsBuffer[curr_step] == NULL ) curr_step = 0;
 }
