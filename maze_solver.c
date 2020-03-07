@@ -328,4 +328,43 @@ void floodFill(mouse_action* actions, int walls) {
 	actionsCounter++;
 }
 
+void shortestPath(mouse_action* actions){
+    int actionsCounter = 0;
+    
+    int distance = peakForward() >> 8;
+	int turn = FORWARD;
+	int temp_dist;
+
+    temp_dist = peakRight() >> 8;
+    if (distance > temp_dist) {
+        turn = RIGHT;
+        distance = temp_dist;
+    }
+    
+    temp_dist = peakLeft() >> 8;
+    if (distance > temp_dist) {
+        turn = LEFT;
+        distance = temp_dist;
+    }
+    
+    switch (turn)
+	{
+	case FORWARD:
+		currentDirection = currentDirection;
+		break;
+	case RIGHT:
+		actions[actionsCounter] = mouse_rotate_right;
+		actionsCounter++;
+		break;
+	case LEFT:
+		actions[actionsCounter] = mouse_rotate_left;
+		actionsCounter++;
+		break;
+	default:
+		break;
+	}
+
+	actions[actionsCounter] = mouse_move_fw;
+	actionsCounter++;
+}
 

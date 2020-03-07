@@ -12,6 +12,8 @@ void initMazeSolver();
 void rightHandRule(mouse_action* actions, int walls);
 void floodFill(mouse_action* actions, int walls);
 
+void shortestPath(mouse_action* actions);
+
 int isExplorationDone();
 
 #endif	/* MAZESOLVER_H */
