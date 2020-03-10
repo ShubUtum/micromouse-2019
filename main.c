@@ -66,16 +66,19 @@
 #pragma config GSS = OFF                // General Segment Code Protection (User program memory is not code-protected)
 
 // FOSCSEL
-#pragma config FNOSC = PRIPLL           // Oscillator Mode (Primary Oscillator (XT, HS, EC) w/ PLL)
+#pragma config FNOSC = LPRCDIVN         // Oscillator Mode (Internal Fast RC (FRC) with divide by N)
+//#pragma config FNOSC = PRIPLL           // Oscillator Mode (Primary Oscillator (XT, HS, EC) w/ PLL)
 #pragma config IESO = ON                // Internal External Switch Over Mode (Start-up device with FRC, then automatically switch to user-selected oscillator source when ready)
 
 // FOSC
 #pragma config POSCMD = HS              // Primary Oscillator Source (HS Oscillator Mode)
 #pragma config OSCIOFNC = OFF           // OSC2 Pin Function (OSC2 pin has clock out function)
 #pragma config IOL1WAY = OFF            // Peripheral Pin Select Configuration (Allow Multiple Re-configurations)
-#pragma config FCKSM = CSDCMD           // Clock Switching and Monitor (Both Clock Switching and Fail-Safe Clock Monitor are disabled)
+#pragma config FCKSM = CSECME           // Clock Switching and Monitor (Both Clock Switching and Fail-Safe Clock Monitor are enabled)
+//#pragma config FCKSM = CSDCMD           // Clock Switching and Monitor (Both Clock Switching and Fail-Safe Clock Monitor are disabled)
 
 // FWDT
+//#pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)
 #pragma config WDTPOST = PS1            // Watchdog Timer Postscaler (1:1)
 #pragma config WDTPRE = PR128           // WDT Prescaler (1:128)
 #pragma config WINDIS = OFF             // Watchdog Timer Window (Watchdog Timer in Non-Window mode)
@@ -104,15 +107,20 @@ int main(void) {
     CLKDIVbits.PLLPRE  = 0; //N1 = input/2
     CLKDIVbits.PLLPOST = 0; //N2 = output/2
     CLKDIVbits.FRCDIV  = 0;
-
     // Disable Watch Dog Timer
     RCONbits.SWDTEN=0;
-
+    // Clock switch to incorporate PLL
+    __builtin_write_OSCCONH( 0x03 );            // Initiate Clock Switch to Primary
+    // Oscillator with PLL (NOSC=0b011)
+    __builtin_write_OSCCONL( OSCCON || 0x01 );  // Start clock switching
+    
+    while( OSCCONbits.COSC != 0b011 );
+    // In reality, give some time to the PLL to lock
     if (IN_SIMULATION_MODE != 1)
     {
-        while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
+       while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
     }
-    
+
     initIO();
     
     GREEN_LED = 1;
@@ -127,7 +135,7 @@ int main(void) {
     timer1_setup( 10 );        // 10 ms timer 
 
     LOG( "\n\r\n\r\n\r.....   START MICRO-MOUSE   ..... \n\r" );
-#if 0
+
     setupADC1();
     initDmaChannel4();
 
@@ -135,8 +143,8 @@ int main(void) {
     fsm_init();
 
     startADC1();
-#endif
-    // timer1_start();
+    timer1_start();
+    
     while(1);
 
     return 0;

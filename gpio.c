@@ -175,7 +175,7 @@ void initIO() {
     
     __builtin_write_OSCCONL(OSCCON | 0x40); // Lock PPS registers (lock again!)
 
-    for (i = 0; i < 40000; i++); // short delay ~ 1ms
+    //for (i = 0; i < 40000; i++); // short delay ~ 1ms
 
     PMCON = 0;    // disable PARALLEL MASTER PORT PMP
     PMAEN = 0;    // PMP pins function as port I/O
@@ -205,7 +205,7 @@ void initIO() {
     TRISAbits.TRISA9  =0; //LED RGB 3 RA9 (G)
     TRISAbits.TRISA4  =0; //LED RGB 4 RA4 (R)
 
-    for (i = 0; i < 40000; i++); // short delay ~ 1ms
+    //for (i = 0; i < 40000; i++); // short delay ~ 1ms
 }
 #endif
 
