@@ -35,8 +35,8 @@
 
 #define LM_DIR1 LATCbits.LATC8
 #define LM_DIR2 LATCbits.LATC9
-#define RM_DIR1 LATCbits.LATC1
-#define RM_DIR2 LATCbits.LATC0
+#define RM_DIR1 LATCbits.LATC0
+#define RM_DIR2 LATCbits.LATC1
 
 typedef enum {
    ALL_OFF  = 0x00,

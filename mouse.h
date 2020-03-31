@@ -23,6 +23,7 @@ typedef void ( *mouse_action )( void );
 extern mouse_action actionsBuffer[10];
 
 void mouse_init( void );
+void mouse_brake( void );
 void mouse_move_fw( void );
 void mouse_move_bw( void );
 void mouse_rotate_left( void );

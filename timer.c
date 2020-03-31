@@ -116,8 +116,8 @@ static void timer_10ms_tick_actions( void ) {
     //test_motor_PI_control( 40 );
 
 
-    //calc_motors_speed();
-    //check_mouse_move();
+    calc_motors_speed();
+    check_mouse_move();
 }
 
 static void timer_50ms_tick_actions( void ) {
@@ -130,8 +130,8 @@ static void timer_100ms_tick_actions( void ) {
     RED_LED = ~RED_LED; // toggle RED led
     GREEN_LED = ~GREEN_LED; // toggle GREEN led
 
-    BACK_LED = ~BACK_LED;
-    FRONT_LED = ~FRONT_LED;
+    //BACK_LED = ~BACK_LED;
+    //FRONT_LED = ~FRONT_LED;
     //test_motor();
     
     //test_motor_PI_control( 40 );

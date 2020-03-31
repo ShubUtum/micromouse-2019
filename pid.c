@@ -44,7 +44,7 @@ void init_pid( pid_params *pid, float kp, float ki, int16_t min_ip, int16_t max_
  *
  * return: PWM DC percentage 100(full speed) : 0(stationary) : -100(full speed in reverse direction)
  ************************************************************************/
-int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val ) {
+int16_t pid_control( pid_params *pid, uint16_t current_val, int16_t desired_val ) {
    int16_t op;
    int16_t error = desired_val - current_val;
 
@@ -64,7 +64,8 @@ int16_t pid_control( pid_params *pid, uint16_t current_val, uint16_t desired_val
     if( op > pid->max_op )    op = pid->max_op;
     if( op < pid->min_op )    op = pid->min_op;
     
-    //LOG("error= %d, i_error= %d, DC= %d \n\r", error, pid->i_error, op);
+    //LOG("desired=%d, error= %d, i_error= %d, DC= %d \n\r", desired_val, error, pid->i_error, op);
+    LOG("DC= %d \n\r", op);
     
     return op;
  }
