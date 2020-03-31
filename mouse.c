@@ -9,9 +9,9 @@
 #include "coordinate.h"
 #include "mazeHandler.h"
 
-#define MOTOR_SPEED     (MOTOR_MAX_SPEED-10)
+#define MOTOR_SPEED     (MOTOR_MAX_SPEED-20)
 
-#define CELL_POSCNT_DIST        10000     // one cell (16 cm) distance in POSCNT unit
+#define CELL_POSCNT_DIST        2000     // one cell (16 cm) distance in POSCNT unit
 #define ROTATE_POSCNT_DIST      2000      // distance of each wheel in POSCNT unit when mouse rotate
 
 int               desired_LM_speed;
@@ -36,6 +36,20 @@ void mouse_init( void ) {
     curr_move   = BRAKE;
 }
 
+void mouse_brake( void ) {
+    LOG( "-- Brake --\n\r" );
+    desired_LM_speed     = 0;
+    desired_RM_speed     = 0;
+    desired_poscnt_dist  = 0;
+    curr_move   = BRAKE;
+
+    BACK_LED = 0;
+    FRONT_LED = 0;
+
+    left_motor_perform( desired_LM_speed );
+    right_motor_perform( desired_RM_speed );
+}
+
 void mouse_move_fw( void ) {
     LOG( "-- FW --\n\r" );
     desired_LM_speed     = MOTOR_SPEED;
@@ -43,6 +57,9 @@ void mouse_move_fw( void ) {
     desired_poscnt_dist  = CELL_POSCNT_DIST;
     curr_move   = FORWARD;
     
+    BACK_LED = 0;
+    FRONT_LED = 1;
+
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
     
@@ -62,6 +79,9 @@ void mouse_move_bw( void ) {
     desired_poscnt_dist  = CELL_POSCNT_DIST;
     curr_move   = BACKWARD;
     
+    BACK_LED = 1;
+    FRONT_LED = 0;
+
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
     
@@ -75,12 +95,15 @@ void mouse_move_bw( void ) {
 }
 
 void mouse_rotate_left( void ) {
-    LOG( "-- RL --\n\r" );
     desired_LM_speed     = -MOTOR_SPEED;
     desired_RM_speed     = MOTOR_SPEED;
     desired_poscnt_dist  = ROTATE_POSCNT_DIST;
     curr_move   = LEFT;
+    LOG( "-- RL --, LM=%d, RM=%d\n\r", desired_LM_speed, desired_RM_speed );
     
+    BACK_LED = 1;
+    FRONT_LED = 1;
+
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
     
@@ -88,11 +111,14 @@ void mouse_rotate_left( void ) {
 }
 
 void mouse_rotate_right( void ) {
-    LOG( "-- RR --\n\r" );
     desired_LM_speed     = MOTOR_SPEED;
     desired_RM_speed     = -MOTOR_SPEED;
     desired_poscnt_dist  = ROTATE_POSCNT_DIST;
     curr_move   = RIGHT;
+    LOG( "-- RR --, LM=%d, RM=%d\n\r", desired_LM_speed, desired_RM_speed );
+
+    BACK_LED = 1;
+    FRONT_LED = 1;
     
     left_motor_perform( desired_LM_speed );
     right_motor_perform( desired_RM_speed );
@@ -164,12 +190,15 @@ void demo1_rect( void ) {
 
    mouse_action procedure[] = {
       mouse_move_fw,
-      mouse_rotate_left
+//      mouse_rotate_left
+      mouse_rotate_right
    };
 
-   (*procedure[ curr_step++ ])();
+   if( curr_step < steps_cnt )
+      (*procedure[ curr_step++ ])();
+   else  mouse_brake();
 
-   if( curr_step == steps_cnt ) curr_step = 0;
+   //if( curr_step == steps_cnt ) curr_step = 0;
 }
 
 void demo2_stair( void ) {

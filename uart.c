@@ -13,6 +13,7 @@
 #include "gpio.h"
 #include <stdlib.h> // for atoi()
 #include "pwm.h"
+#include "fsm.h"
 
 static void uart2_interrupt_init( void );
 static void set_receive_priority( void );
@@ -148,7 +149,10 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
         U2STAbits.OERR = 0;
     }
     myReceive = U2RXREG;
-    send_char(myReceive);
+    //send_char(myReceive);
+    if( myReceive == '1' )       fsm_handle_event(SINGLE_CLICK_EVENT);
+    else if( myReceive == '2' )  fsm_handle_event(DOUBLE_CLICK_EVENT);
+    else if( myReceive == '3' )  fsm_handle_event(LONG_CLICK_EVENT);
     U2RXREG = '\0';
 }
 

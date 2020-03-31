@@ -69,17 +69,17 @@ void get_motors_moved_dist( int* LM_dist, int* RM_dist ) {
 }
 
 void left_motor_perform( int desired_speed ){
-    uint16_t pwm_dc;
+    int pwm_dc;
     
     //if( desired_speed > MOTOR_MAX_SPEED ) desired_speed = MOTOR_MAX_SPEED;
     
     pwm_dc = pid_control( &LM_pid, LM_curr_speed, desired_speed );
 
     //H bridge control
-    if( pwm_dc == 0 ) {         // brake
+    if( desired_speed == 0 || pwm_dc == 0 ) {         // brake
         LM_DIR1 = 0;
         LM_DIR2 = 0;
-        pwm2_change_dc( pwm_dc );
+        pwm2_change_dc( 0 );
     }else if( pwm_dc > 0 ) {    // Forward
         LM_DIR1 = 1;
         LM_DIR2 = 0;
@@ -88,22 +88,24 @@ void left_motor_perform( int desired_speed ){
     else {                      // Backward
         LM_DIR1 = 0;
         LM_DIR2 = 1;
-        pwm2_change_dc( -pwm_dc );
+        //pwm_dc = -1*pwm_dc;
+        //LOG( "pwm2 DC = %d\n\r", -pwm_dc );
+        pwm2_change_dc( (-pwm_dc) );
     }
 }
 
 void right_motor_perform( int desired_speed ){    
-    uint16_t pwm_dc;
+    int pwm_dc;
     
     //if( desired_speed > MOTOR_MAX_SPEED ) desired_speed = MOTOR_MAX_SPEED;
     
     pwm_dc = pid_control( &RM_pid, RM_curr_speed, desired_speed );
 
     //H bridge control
-    if( pwm_dc == 0 ) {         // brake
+    if( desired_speed == 0 || pwm_dc == 0 ) {         // brake
         RM_DIR1 = 0;
         RM_DIR2 = 0;
-        pwm1_change_dc( pwm_dc );
+        pwm1_change_dc( 0 );
     }else if( pwm_dc > 0 ) { // Forward
         RM_DIR1 = 1;
         RM_DIR2 = 0;

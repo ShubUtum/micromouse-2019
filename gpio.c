@@ -97,7 +97,7 @@ void initIO() {
 
 #else
 void initIO() {
-    int i;
+    //int i;
    /***********************************************************************
     *  PIN#     name            I/O  mappable?  function                   
     ***********************************************************************
@@ -114,13 +114,13 @@ void initIO() {
     *
     *   4       RC8             op      Y      GP - Left Motor H bridge dir control 1
     *   5       RC9             op      Y      GP - Left Motor H bridge dir control 2
-    *   8       RB10            ip      Y      QEI1 A - Left Motor encoder ch A
-    *   9       RB11            ip      Y      QEI1 B - Left Motor encoder ch B
+    *   8       RB10            ip      Y      QEI1 B - Left Motor encoder ch B
+    *   9       RB11            ip      Y      QEI1 A - Left Motor encoder ch A
     *
     *   23      RB2             ip      Y      QEI2 A - Right Motor encoder ch A
     *   24      RB3             ip      Y      QEI2 B - Right Motor encoder ch B
-    *   26      RC1             op      Y      GP - Right Motor H bridge dir control 1
-    *   25      RC0             op      Y      GP - Right Motor H bridge dir control 2
+    *   25      RC0             op      Y      GP - Right Motor H bridge dir control 1
+    *   26      RC1             op      Y      GP - Right Motor H bridge dir control 2
     *
     *   32      RA8             op      Y      Front GREEN LED3 Low current
     *   33      RB4             op      Y      Back RED LED4 Low current
@@ -141,8 +141,8 @@ void initIO() {
     __builtin_write_OSCCONL(OSCCON & 0xbf); // clear bit 6 (unlock, they are usually write protected)
     // inputs
      // input pin mapping example below:, here you choose the register with the device and assign an remappable pin
-    RPINR14bits.QEA1R = 10; // QEI1 A to pin RB10
-    RPINR14bits.QEB1R = 11; // QEI1 B to pin RB11
+    RPINR14bits.QEB1R = 10; // QEI1 B to pin RB10
+    RPINR14bits.QEA1R = 11; // QEI1 A to pin RB11
     RPINR16bits.QEA2R = 2; //QEI2 A to pin RB2
     RPINR16bits.QEB2R = 3; //QEI2 B to pin RB3
     
@@ -162,8 +162,8 @@ void initIO() {
     
     RPOR12bits.RP24R = 0; //default pin output for H bridge LM dir control RC8
     RPOR12bits.RP25R = 0; //default pin output for H bridge LM dir control RC9
-    RPOR8bits.RP17R  = 0; //default pin output for H bridge RM dir control RC1
     RPOR8bits.RP16R  = 0; //default pin output for H bridge RM dir control RC0
+    RPOR8bits.RP17R  = 0; //default pin output for H bridge RM dir control RC1
     
     RPOR7bits.RP15R  = 0; //default pin output for LED1 RB15 
     RPOR11bits.RP23R = 0; //default pin output for LED2 RC7
@@ -193,8 +193,8 @@ void initIO() {
 
     TRISCbits.TRISC8  =0; //LM - H bridge dir control 1
     TRISCbits.TRISC9  =0; //LM - H bridge dir control 2
-    TRISCbits.TRISC1  =0; //RM - H bridge dir control 1
-    TRISCbits.TRISC0  =0; //RM - H bridge dir control 2
+    TRISCbits.TRISC0  =0; //RM - H bridge dir control 1
+    TRISCbits.TRISC1  =0; //RM - H bridge dir control 2
     //TRISBbits.TRISB7 =0; //UART2 TX
 
     TRISAbits.TRISA8  =0; //Front GREEN LED3
